@@ -1,20 +1,14 @@
 import 'package:flutter/material.dart';
+import 'index.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(App());
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
+class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: Scaffold(
-      appBar: AppBar(
-        title: const Text('Dispensa'),
-      ),
-      body: Container(
-        child: const Text('Hello World'),
-      ),
-    ));
+      title: 'Dispensa',
+      home: MainPage(),
+    );
   }
 }
