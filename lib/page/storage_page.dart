@@ -2,20 +2,46 @@ import 'package:flutter/material.dart';
 import '../utils/constants.dart';
 
 class StoragePage extends StatelessWidget {
-  const StoragePage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 100,
-      decoration: BoxDecoration(
-        color: PRIMARY_RED,
-        border: Border.all(color: Colors.transparent, width: 2),
-        borderRadius: const BorderRadius.only(
-            bottomLeft: Radius.circular(20.0),
-            bottomRight: Radius.circular(20.0)),
-      ),
-      child: Row(),
+    // TODO: implement build
+    return Scaffold(
+      body: SafeArea(
+          child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                    onPressed: () {}, icon: const Icon(Icons.arrow_back)),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    IconButton(
+                        onPressed: () {}, icon: const Icon(Icons.search)),
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.notifications),
+                    ),
+                  ],
+                )
+              ],
+            ),
+            SizedBox(
+              height: 40,
+            ),
+            Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30), color: Colors.green),
+              height: MediaQuery.of(context).size.height,
+            )
+          ],
+        ),
+      )),
     );
   }
 }

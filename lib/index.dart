@@ -29,7 +29,7 @@ class _MainPageState extends State<MainPage> {
               height: 80,
               onDestinationSelected: (index) =>
                   setState(() => this.index = index),
-              backgroundColor: SECONDARY_RED,
+              backgroundColor: BOTTOM_RED,
               labelBehavior:
                   NavigationDestinationLabelBehavior.onlyShowSelected,
               selectedIndex: index,
