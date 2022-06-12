@@ -54,3 +54,65 @@ class _MainPageState extends State<MainPage> {
             )),
       );
 }
+
+header(Container content, context) {
+  return Scaffold(
+      body: Container(
+    color: PRIMARY_RED,
+    child: SafeArea(
+        child: SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                  decoration: BoxDecoration(
+                      color: SECONDARY_RED,
+                      borderRadius: BorderRadius.all(Radius.circular(20))),
+                  margin: EdgeInsets.only(top: 20, left: 10),
+                  padding: EdgeInsets.all(1),
+                  child: Row(children: [
+                    IconButton(
+                        // set a margin top
+                        onPressed: () {},
+                        icon: const Icon(Icons.supervised_user_circle_outlined,
+                            size: 25)),
+                    IconButton(
+                        // set a margin top
+                        onPressed: () {},
+                        icon: const Icon(Icons.menu, size: 20)),
+                  ])),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(top: 20, right: 10),
+                    child: IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.add),
+                    ),
+                  )
+                ],
+              )
+            ],
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20)),
+                  color: Colors.white),
+              height: MediaQuery.of(context).size.height,
+              child: content)
+        ],
+      ),
+    )),
+  ));
+}
