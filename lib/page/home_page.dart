@@ -14,14 +14,14 @@ class HomePage extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Text(
-              'Bentornato Mario!',
+              'Bentornato, Mario!',
               style:
                   DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0),
             ),
             Container(
                 margin: EdgeInsets.only(top: 20),
                 decoration: BoxDecoration(
-                    color: LIGHT_RED,
+                    color: PALETTE_WHITE,
                     borderRadius: BorderRadius.all(Radius.circular(20))),
                 child: Container(
                     margin: EdgeInsets.all(20),
@@ -39,8 +39,9 @@ class HomePage extends StatelessWidget {
                           SizedBox(height: 15),
                           LinearProgressIndicator(
                               value: 0.7,
-                              backgroundColor: SECONDARY_LIGHT_RED,
-                              color: PROGRESS_RED)
+                              backgroundColor:
+                                  Color.fromARGB(255, 255, 233, 188),
+                              color: PALETTE_DARK_YELLOW)
                         ]))),
             Container(
                 margin: EdgeInsets.only(top: 20),
@@ -59,7 +60,7 @@ class HomePage extends StatelessWidget {
                             Container(
                               //set shadow
                               decoration: BoxDecoration(
-                                  color: LIGHT_RED,
+                                  color: PALETTE_WHITE,
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(20))),
                               padding: EdgeInsets.all(15),
@@ -70,7 +71,7 @@ class HomePage extends StatelessWidget {
                                 Container(
                                   padding: EdgeInsets.all(7),
                                   decoration: BoxDecoration(
-                                      color: PRIMARY_RED,
+                                      color: PALETTE_LIGHT_YELLOW,
                                       borderRadius:
                                           BorderRadius.all(Radius.circular(5))),
                                   child: Text("20 FEB"),
@@ -80,7 +81,7 @@ class HomePage extends StatelessWidget {
                             Container(
                               //set shadow
                               decoration: BoxDecoration(
-                                  color: LIGHT_RED,
+                                  color: PALETTE_WHITE,
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(20))),
                               padding: EdgeInsets.all(15),
@@ -91,7 +92,7 @@ class HomePage extends StatelessWidget {
                                 Container(
                                   padding: EdgeInsets.all(7),
                                   decoration: BoxDecoration(
-                                      color: PRIMARY_RED,
+                                      color: PALETTE_LIGHT_YELLOW,
                                       borderRadius:
                                           BorderRadius.all(Radius.circular(5))),
                                   child: Text("20 FEB"),
@@ -101,7 +102,7 @@ class HomePage extends StatelessWidget {
                             Container(
                               //set shadow
                               decoration: BoxDecoration(
-                                  color: LIGHT_RED,
+                                  color: PALETTE_WHITE,
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(20))),
                               padding: EdgeInsets.all(15),
@@ -112,7 +113,7 @@ class HomePage extends StatelessWidget {
                                 Container(
                                   padding: EdgeInsets.all(7),
                                   decoration: BoxDecoration(
-                                      color: PRIMARY_RED,
+                                      color: PALETTE_LIGHT_YELLOW,
                                       borderRadius:
                                           BorderRadius.all(Radius.circular(5))),
                                   child: Text("20 FEB"),
@@ -143,7 +144,7 @@ class HomePage extends StatelessWidget {
                                   Container(
                                     padding: EdgeInsets.all(7),
                                     decoration: BoxDecoration(
-                                        color: PRIMARY_RED,
+                                        color: PALETTE_LIGHT_YELLOW,
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(5))),
                                     child: Text("20 FEB"),

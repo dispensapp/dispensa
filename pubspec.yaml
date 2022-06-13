@@ -36,6 +36,7 @@ dependencies:
   flutter_svg: ^0.17.4 #SVG library
   calendar_timeline: ^1.0.4
   intl: ^0.17.0
+  flutter_barcode_scanner: ^2.0.0
 
 dev_dependencies:
   flutter_test:

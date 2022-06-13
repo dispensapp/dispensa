@@ -23,7 +23,7 @@ class StoragePage extends StatelessWidget {
                     EdgeInsets.only(left: 20, right: 20, top: 15, bottom: 15),
                 margin: EdgeInsets.only(top: 20),
                 decoration: BoxDecoration(
-                    color: LIGHT_RED,
+                    color: PALETTE_WHITE,
                     borderRadius: BorderRadius.all(Radius.circular(20))),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -63,7 +63,7 @@ class StoragePage extends StatelessWidget {
                     EdgeInsets.only(left: 20, right: 20, top: 15, bottom: 15),
                 margin: EdgeInsets.only(top: 20),
                 decoration: BoxDecoration(
-                    color: LIGHT_RED,
+                    color: PALETTE_WHITE,
                     borderRadius: BorderRadius.all(Radius.circular(20))),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

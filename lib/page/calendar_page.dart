@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import '../index.dart';
 import '../utils/constants.dart';
 import 'package:calendar_timeline/calendar_timeline.dart';
-import 'package:intl/intl.dart';
 
 class CalendarPage extends StatelessWidget {
   @override
@@ -31,9 +30,9 @@ class CalendarPage extends StatelessWidget {
                 monthColor: Colors.black,
                 dayColor: Colors.grey[800],
                 activeDayColor: Colors.black,
-                activeBackgroundDayColor: Colors.redAccent[100],
+                activeBackgroundDayColor: PALETTE_LIGHT_YELLOW,
                 dotsColor: Color(0xFF333A47),
-                selectableDayPredicate: (date) => date.day != 23,
+                //selectableDayPredicate: (date) => date.day != 23,
                 locale: 'en_ISO',
               ),
               SizedBox(height: 10),
