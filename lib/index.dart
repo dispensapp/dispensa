@@ -57,7 +57,8 @@ class _MainPageState extends State<MainPage> {
       );
 }
 
-buildSheet(date, context) {
+// aggiungi prodotto
+addProduct() {
   Container(
       margin: EdgeInsets.all(40),
       child: Column(children: [
@@ -72,7 +73,8 @@ buildSheet(date, context) {
             ),
           ),
         ),
-        Text('${date.year}/${date.month}/${date.day}',
+
+        /*Text('${date.year}/${date.month}/${date.day}',
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
         ElevatedButton(
             onPressed: () async {
@@ -82,7 +84,7 @@ buildSheet(date, context) {
                   firstDate: DateTime(2019, 1, 15),
                   lastDate: DateTime(2030, 1, 15));
             },
-            child: Text('Inserisci la data di scadenza')),
+            child: Text('Inserisci la data di scadenza')),*/
       ]));
 }
 
@@ -112,7 +114,7 @@ header(Container content, context) {
                         // set a margin top
                         onPressed: () => showModalBottomSheet(
                               context: context,
-                              builder: (context) => buildSheet(date, context),
+                              builder: (context) => addProduct(),
                             ),
                         icon: const Icon(Icons.supervised_user_circle_outlined,
                             size: 25, color: Colors.white)),
@@ -162,5 +164,6 @@ Future scanBarCode() async {
   } on PlatformException {
     scanResult = 'Failed to get platform version.';
   }
+
   //if (!mounted) return;
 }

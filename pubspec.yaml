@@ -37,6 +37,15 @@ dependencies:
   calendar_timeline: ^1.0.4
   intl: ^0.17.0
   flutter_barcode_scanner: ^2.0.0
+  cloud_firestore: ^3.2.1
+  google_sign_in: ^5.3.3
+  firebase_auth: ^3.4.1
+
+  # Google icon
+  font_awesome_flutter: ^10.1.0
+
+  # State management
+  provider: ^6.0.3
 
 dev_dependencies:
   flutter_test:
