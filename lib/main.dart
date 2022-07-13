@@ -1,5 +1,6 @@
+import 'package:dispensa/provider/auth_page.dart';
 import 'package:dispensa/provider/google_sign_in.dart';
-import 'package:dispensa/widget/sign_up.dart';
+import 'package:dispensa/widget/sign_up_widget.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +20,7 @@ class App extends StatelessWidget {
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Dispensa',
-          home: SignUpWidget(),
+          home: AuthPage(),
         ),
       );
 }

@@ -5,7 +5,7 @@ import 'package:dispensa/page/calendar_page.dart';
 import 'package:dispensa/page/home_page.dart';
 import 'package:dispensa/page/storage_page.dart';
 import 'package:dispensa/utils/constants.dart';
-import 'package:dispensa/widget/home_page_widget.dart';
+import 'package:dispensa/widget/sign_up_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -17,29 +17,52 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  //int index = 0;
-  //final screens = [HomePage(), StoragePage(), CalendarPage(), BuyPage()];
+  int index = 0;
+  final screens = [HomePage(), StoragePage(), CalendarPage(), BuyPage()];
   @override
-  Widget build(BuildContext context) => Container(
-      margin: EdgeInsets.all(30),
-      child: StreamBuilder(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text(snapshot.error.toString()));
-          } else if (snapshot.hasData) {
-            return HomePageWidget();
-          } else {
-            return Center(child: Text('Unknown error'));
-          }
-        },
-      ));
+  Widget build(BuildContext context) => Scaffold(
+        body: screens[index],
+        bottomNavigationBar: NavigationBarTheme(
+            data: NavigationBarThemeData(
+              indicatorColor: PALETTE_LIGHT_YELLOW,
+              labelTextStyle: MaterialStateProperty.all(
+                TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+              ),
+            ),
+            child: NavigationBar(
+              height: 80,
+              onDestinationSelected: (index) =>
+                  setState(() => this.index = index),
+              backgroundColor: PALETTE_WHITE,
+              labelBehavior:
+                  NavigationDestinationLabelBehavior.onlyShowSelected,
+              selectedIndex: index,
+              destinations: const [
+                NavigationDestination(
+                  icon: Icon(Icons.food_bank),
+                  label: 'Home',
+                ),
+                NavigationDestination(
+                  icon: Icon(Icons.storage),
+                  label: 'Dispensa',
+                ),
+                NavigationDestination(
+                  icon: Icon(Icons.calendar_month_outlined),
+                  label: 'Scadenze',
+                ),
+                NavigationDestination(
+                  icon: Icon(Icons.money_outlined),
+                  label: 'Risparmia',
+                ),
+              ],
+            )),
+      );
 }
 
 header(Container content, context) {
   DateTime date = DateTime.now();
+  final user = FirebaseAuth.instance.currentUser;
+
   //final user = FirebaseAuth.instance.currentUser!;
   return Scaffold(
       body: Container(
@@ -60,10 +83,10 @@ header(Container content, context) {
                   margin: EdgeInsets.only(top: 20, left: 10),
                   padding: EdgeInsets.all(1),
                   child: Row(children: [
-                    /*CircleAvatar(
-                      radius: 40,
-                      backgroundImage: NetworkImage(user.photoURL!),
-                    ),*/
+                    CircleAvatar(
+                      radius: 25,
+                      backgroundImage: NetworkImage(user!.photoURL!),
+                    ),
                     IconButton(
                         // set a margin top
                         onPressed: () => showModalBottomSheet(
