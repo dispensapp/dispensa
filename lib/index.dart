@@ -4,8 +4,11 @@ import 'package:dispensa/page/buy_page.dart';
 import 'package:dispensa/page/calendar_page.dart';
 import 'package:dispensa/page/home_page.dart';
 import 'package:dispensa/page/storage_page.dart';
+import 'package:dispensa/provider/google_sign_in.dart';
 import 'package:dispensa/utils/constants.dart';
+import 'package:dispensa/widget/add_product_widget.dart';
 import 'package:dispensa/widget/sign_up_widget.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -77,24 +80,49 @@ header(Container content, context) {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                  decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 5, 62, 92),
-                      borderRadius: BorderRadius.all(Radius.circular(20))),
                   margin: EdgeInsets.only(top: 20, left: 10),
-                  padding: EdgeInsets.all(1),
                   child: Row(children: [
-                    CircleAvatar(
-                      radius: 25,
-                      backgroundImage: NetworkImage(user!.photoURL!),
-                    ),
-                    IconButton(
-                        // set a margin top
-                        onPressed: () => showModalBottomSheet(
-                              context: context,
-                              builder: (context) => addProduct(),
+                    PopUpMenu(
+                      menuList: const [
+                        PopupMenuItem(
+                          child: ListTile(
+                            leading: Icon(
+                              CupertinoIcons.person,
                             ),
-                        icon: const Icon(Icons.menu,
-                            size: 20, color: Colors.white)),
+                            title: Text("My Profile"),
+                          ),
+                        ),
+                        PopupMenuItem(
+                          child: ListTile(
+                            leading: Icon(
+                              CupertinoIcons.bag,
+                            ),
+                            title: Text("My Bag"),
+                          ),
+                        ),
+                        PopupMenuDivider(),
+                        PopupMenuItem(
+                          child: Text("Settings"),
+                        ),
+                        PopupMenuItem(
+                          child: Text("About Us"),
+                        ),
+                        PopupMenuDivider(),
+                        PopupMenuItem(
+                          child: ListTile(
+                            leading: Icon(
+                              Icons.logout,
+                            ),
+                            title: Text("Log Out"),
+                            onTap: logout,
+                          ),
+                        ),
+                      ],
+                      icon: CircleAvatar(
+                        radius: 25,
+                        backgroundImage: NetworkImage(user!.photoURL!),
+                      ),
+                    )
                   ])),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -103,7 +131,13 @@ header(Container content, context) {
                   Container(
                     margin: EdgeInsets.only(top: 20, right: 10),
                     child: IconButton(
-                      onPressed: scanBarCode,
+                      onPressed: () => showModalBottomSheet(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(20),
+                          )),
+                          context: context,
+                          builder: (context) => addProduct(date, context)),
                       icon: const Icon(Icons.add, color: Colors.white),
                     ),
                   )
@@ -128,37 +162,6 @@ header(Container content, context) {
   ));
 }
 
-// aggiungi prodotto
-addProduct() {
-  Container(
-      margin: EdgeInsets.all(40),
-      child: Column(children: [
-        Text('Aggiungi un prodotto',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-          child: TextFormField(
-            decoration: const InputDecoration(
-              border: UnderlineInputBorder(),
-              labelText: 'Nome del prodotto',
-            ),
-          ),
-        ),
-
-        /*Text('${date.year}/${date.month}/${date.day}',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
-        ElevatedButton(
-            onPressed: () async {
-              showDatePicker(
-                  context: context,
-                  initialDate: date,
-                  firstDate: DateTime(2019, 1, 15),
-                  lastDate: DateTime(2030, 1, 15));
-            },
-            child: Text('Inserisci la data di scadenza')),*/
-      ]));
-}
-
 Future scanBarCode() async {
   String scanResult;
   try {
@@ -169,4 +172,22 @@ Future scanBarCode() async {
   }
 
   //if (!mounted) return;
+}
+
+class PopUpMenu extends StatelessWidget {
+  final List<PopupMenuEntry> menuList;
+  final Widget? icon;
+  const PopUpMenu({Key? key, required this.menuList, this.icon})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return PopupMenuButton(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.0),
+      ),
+      itemBuilder: ((context) => menuList),
+      icon: icon,
+    );
+  }
 }

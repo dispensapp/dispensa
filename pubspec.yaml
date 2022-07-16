@@ -46,6 +46,8 @@ dependencies:
 
   # State management
   provider: ^6.0.3
+  flutter_launcher_icons: ^0.8.1
+  firebase_database: ^9.0.19
 
 dev_dependencies:
   flutter_test:
@@ -102,3 +104,11 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+
+flutter_icons:
+  image_path: "assets/icons/logo.png" 
+  android: true
+  ios: true
+  # optionally, as transparency is not allowed on app store
+  # remove_alpha_ios: true

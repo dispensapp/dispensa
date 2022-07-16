@@ -1,10 +1,11 @@
+import 'package:dispensa/provider/user_setup.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-class GoogleSignInProvider extends ChangeNotifier {
-  final googleSignIn = GoogleSignIn();
+final googleSignIn = GoogleSignIn();
 
+class GoogleSignInProvider extends ChangeNotifier {
   GoogleSignInAccount? _user;
   GoogleSignInAccount? get user => _user;
 
@@ -23,6 +24,14 @@ class GoogleSignInProvider extends ChangeNotifier {
     );
     await FirebaseAuth.instance.signInWithCredential(credentials);
 
+    final user = FirebaseAuth.instance.currentUser;
+
+    userSetup(user!.displayName!);
     notifyListeners();
   }
+}
+
+Future logout() async {
+  await googleSignIn.disconnect();
+  FirebaseAuth.instance.signOut();
 }
