@@ -5,7 +5,7 @@ Future<void> userSetup(String displayName) async {
   CollectionReference users = FirebaseFirestore.instance.collection('Users');
   FirebaseAuth auth = FirebaseAuth.instance;
   String uid = auth.currentUser!.uid.toString();
-  users.add({
+  var result = await users.add({
     'displayName': displayName,
     'uid': uid,
   });

@@ -1,13 +1,17 @@
 // aggiungi prodotto
 // ignore_for_file: prefer_const_constructors, unnecessary_new
 
+import 'dart:core';
 import 'dart:ffi';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
+import '../provider/user_setup.dart' as userSetup;
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-final databaseRef = FirebaseDatabase.instance.ref();
+final db = FirebaseFirestore.instance;
 
 var nameController = new TextEditingController();
 var numberController = new TextEditingController();
@@ -28,35 +32,38 @@ Widget addProduct(date, context) => Container(
         ),
       ),
       Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-        child: TextFormField(
-          controller: nameController,
-          decoration: const InputDecoration(
-            border: UnderlineInputBorder(),
-            labelText: 'Numero del prodotto'
-        ),
-      )),
-      Text('${date.year}/${date.month}/${date.day}',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
-      ElevatedButton(
-          onPressed: () async {
-            showDatePicker(
-                context: context,
-                initialDate: date,
-                firstDate: DateTime(2019, 1, 15),
-                lastDate: DateTime(2030, 1, 15));
-          },
-          child: Text('Inserisci la data di scadenza')),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+          child: TextFormField(
+            controller: numberController,
+            decoration: const InputDecoration(
+                border: UnderlineInputBorder(),
+                labelText: 'Numero del prodotto'),
+          )),
+      Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+          child: TextFormField(
+            controller: dateController,
+            decoration: const InputDecoration(
+                border: UnderlineInputBorder(), labelText: 'Data di scadenza'),
+          )),
       ElevatedButton(
         child: Text('Aggiungi'),
-        onPressed: () {insertData()},
+        onPressed: () {
+          insertData(
+              nameController.text, numberController.text, dateController.text);
+        },
       ),
     ]));
 
-void insertData(String name, Int number, DateTime expirationDate) {
-  databaseRef.child("path").set({
-    "name": name,
-    "number": number,
-    "expirationDate": expirationDate.toString()
+void insertData(String name, String number, String expirationDate) {
+  db
+      .collection('users')
+      .doc("vIYDRU2iqgk6RQtVCUr9")
+      .collection('dispensa')
+      .doc(nameController.text)
+      .set({
+    'name': name,
+    'number': number,
+    'expirationDate': expirationDate,
   });
 }
