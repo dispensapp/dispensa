@@ -18,7 +18,8 @@ var numberController = new TextEditingController();
 var dateController = new TextEditingController();
 
 Widget addProduct(date, context) => Container(
-        child: Column(children: [
+    padding: EdgeInsets.all(20),
+    child: Column(children: [
       Text('Aggiungi un prodotto',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
       Padding(
@@ -57,9 +58,9 @@ Widget addProduct(date, context) => Container(
 
 void insertData(String name, String number, String expirationDate) {
   db
-      .collection('users')
+      .collection('Users')
       .doc("vIYDRU2iqgk6RQtVCUr9")
-      .collection('dispensa')
+      .collection('Dispensa')
       .doc(nameController.text)
       .set({
     'name': name,

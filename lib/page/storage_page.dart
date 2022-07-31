@@ -1,105 +1,47 @@
-// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, sort_child_properties_last, camel_case_types, must_be_immutable, prefer_const_literals_to_create_immutables
+// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, sort_child_properties_last, camel_case_types, must_be_immutable, prefer_const_literals_to_create_immutables, unused_element, no_logic_in_create_state, unused_local_variable
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../index.dart';
-import '../utils/constants.dart';
+import '../widget/product_widget.dart';
 
-class StoragePage extends StatelessWidget {
+class StoragePage extends StatefulWidget {
+  @override
+  State<StoragePage> createState() => _StoragePage();
+}
+
+class _StoragePage extends State<StoragePage> {
+  List<String> dataIDs = [];
+
+  //get data from Firestore
+  Future getDocId() async {
+    await FirebaseFirestore.instance
+        .collection("Users")
+        .doc("vIYDRU2iqgk6RQtVCUr9")
+        .collection("Dispensa")
+        .get()
+        .then((snapshot) => snapshot.docs.forEach((document) {
+              dataIDs.add(document.reference.id);
+            }));
+  }
+
   @override
   Widget build(BuildContext context) {
     Container content = Container(
-        margin: EdgeInsets.all(30),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Text(
-              'Dispensa',
-              style:
-                  DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0),
-            ),
-            Container(
-                padding:
-                    EdgeInsets.only(left: 20, right: 20, top: 15, bottom: 15),
-                margin: EdgeInsets.only(top: 20),
-                decoration: BoxDecoration(
-                    color: PALETTE_WHITE,
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Image.asset('assets/images/test.png', width: 50),
-                        Container(
-                          margin: EdgeInsets.only(left: 10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Spaghetti",
-                                  style: DefaultTextStyle.of(context)
-                                      .style
-                                      .apply(fontSizeFactor: 1.5)),
-                              Text("Scadenza: 12/12/2020")
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                    Container(
-                        padding: EdgeInsets.only(
-                            left: 15, right: 15, top: 10, bottom: 10),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20))),
-                        child: Column(
-                          children: [Text("1"), Text("pz")],
-                        ))
-                  ],
-                )),
-            Container(
-                padding:
-                    EdgeInsets.only(left: 20, right: 20, top: 15, bottom: 15),
-                margin: EdgeInsets.only(top: 20),
-                decoration: BoxDecoration(
-                    color: PALETTE_WHITE,
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Image.asset('assets/images/test.png', width: 50),
-                        Container(
-                          margin: EdgeInsets.only(left: 10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Spaghetti",
-                                  style: DefaultTextStyle.of(context)
-                                      .style
-                                      .apply(fontSizeFactor: 1.5)),
-                              Text("Scadenza: 12/12/2020")
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                    Container(
-                        padding: EdgeInsets.only(
-                            left: 15, right: 15, top: 10, bottom: 10),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20))),
-                        child: Column(
-                          children: [Text("1"), Text("pz")],
-                        ))
-                  ],
-                ))
-          ],
-        ));
+      margin: EdgeInsets.all(30),
+      child: FutureBuilder(
+          future: getDocId(),
+          builder: (context, snapshot) {
+            return ListView.builder(
+              itemCount: dataIDs.length,
+              itemBuilder: (BuildContext context, int index) {
+                return GetProduct(
+                  documentId: dataIDs[index],
+                );
+              },
+            );
+          }),
+    );
     return header(content, context);
   }
 }
