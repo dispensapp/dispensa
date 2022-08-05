@@ -2,6 +2,8 @@
 
 import 'dart:ui';
 
+import 'package:firebase_auth/firebase_auth.dart';
+
 const PRIMARY_RED = Color.fromRGBO(255, 149, 139, 1);
 const SECONDARY_RED = Color.fromRGBO(255, 187, 181, 1);
 const BOTTOM_RED = Color.fromRGBO(255, 240, 240, 1);

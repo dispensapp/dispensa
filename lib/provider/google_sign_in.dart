@@ -1,4 +1,5 @@
-import 'package:dispensa/provider/user_setup.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dispensa/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -34,4 +35,18 @@ class GoogleSignInProvider extends ChangeNotifier {
 Future logout() async {
   await googleSignIn.disconnect();
   FirebaseAuth.instance.signOut();
+}
+
+Future<void> userSetup(String displayName) async {
+  final db = FirebaseFirestore.instance;
+  db
+      .collection('users')
+      .doc(FirebaseAuth.instance.currentUser!.uid.toString())
+      .set({
+    'name': displayName,
+    'email': FirebaseAuth.instance.currentUser!.email,
+    'uid': FirebaseAuth.instance.currentUser!.uid.toString(),
+  });
+
+  return;
 }

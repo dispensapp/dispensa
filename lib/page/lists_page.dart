@@ -5,7 +5,7 @@ import '../index.dart';
 import '../utils/constants.dart';
 import 'package:calendar_timeline/calendar_timeline.dart';
 
-class CalendarPage extends StatelessWidget {
+class ListsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Container content = Container(
@@ -15,7 +15,7 @@ class CalendarPage extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Text(
-                'Calendario',
+                'Liste',
                 style: DefaultTextStyle.of(context)
                     .style
                     .apply(fontSizeFactor: 2.0),

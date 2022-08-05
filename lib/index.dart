@@ -1,7 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api, prefer_const_constructors, use_key_in_widget_constructors, dead_code
 
 import 'package:dispensa/page/buy_page.dart';
-import 'package:dispensa/page/calendar_page.dart';
+import 'package:dispensa/page/lists_page.dart';
 import 'package:dispensa/page/home_page.dart';
 import 'package:dispensa/page/storage_page.dart';
 import 'package:dispensa/provider/google_sign_in.dart';
@@ -21,7 +21,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   int index = 0;
-  final screens = [HomePage(), StoragePage(), CalendarPage(), BuyPage()];
+  final screens = [HomePage(), StoragePage(), ListsPage(), BuyPage()];
   @override
   Widget build(BuildContext context) => Scaffold(
         body: screens[index],
@@ -51,7 +51,7 @@ class _MainPageState extends State<MainPage> {
                 ),
                 NavigationDestination(
                   icon: Icon(Icons.calendar_month_outlined),
-                  label: 'Scadenze',
+                  label: 'Liste',
                 ),
                 NavigationDestination(
                   icon: Icon(Icons.money_outlined),

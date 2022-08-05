@@ -4,9 +4,10 @@
 import 'dart:core';
 import 'dart:ffi';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dispensa/utils/constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
-import '../provider/user_setup.dart' as userSetup;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -58,9 +59,9 @@ Widget addProduct(date, context) => Container(
 
 void insertData(String name, String number, String expirationDate) {
   db
-      .collection('Users')
-      .doc("vIYDRU2iqgk6RQtVCUr9")
-      .collection('Dispensa')
+      .collection('users')
+      .doc(FirebaseAuth.instance.currentUser!.uid.toString())
+      .collection('dispensa')
       .doc(nameController.text)
       .set({
     'name': name,

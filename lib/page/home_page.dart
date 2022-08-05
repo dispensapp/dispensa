@@ -25,7 +25,7 @@ class HomePage extends StatelessWidget {
             style:
                 DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0),
           ),
-          Container(
+          /*Container(
               margin: EdgeInsets.only(top: 20),
               decoration: BoxDecoration(
                   color: PALETTE_WHITE,
@@ -48,7 +48,7 @@ class HomePage extends StatelessWidget {
                             value: 0.7,
                             backgroundColor: Color.fromARGB(255, 255, 233, 188),
                             color: PALETTE_DARK_YELLOW)
-                      ]))),
+                      ]))),*/
           Container(
               margin: EdgeInsets.only(top: 20),
               child: Column(

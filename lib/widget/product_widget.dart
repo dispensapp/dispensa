@@ -4,18 +4,20 @@ import 'dart:core';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dispensa/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class GetProduct extends StatelessWidget {
   final String documentId;
+  final user = FirebaseAuth.instance.currentUser;
 
   GetProduct({required this.documentId});
 
   @override
   Widget build(BuildContext context) {
     CollectionReference productsData = FirebaseFirestore.instance
-        .collection("Users")
-        .doc("vIYDRU2iqgk6RQtVCUr9")
-        .collection("Dispensa");
+        .collection("users")
+        .doc(user?.uid)
+        .collection("dispensa");
 
     return Container(
         padding: EdgeInsets.only(left: 20, right: 20, top: 15, bottom: 15),
