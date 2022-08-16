@@ -18,10 +18,7 @@ class HomePage extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Text(
-            'Bentornato, ' +
-                user!.displayName!
-                    .substring(0, user!.displayName!.indexOf(' ')) +
-                '!',
+            'Bentornato, ${user!.displayName!.substring(0, user!.displayName!.indexOf(' '))}!',
             style:
                 DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0),
           ),

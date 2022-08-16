@@ -137,7 +137,7 @@ header(Container content, context) {
                             top: Radius.circular(20),
                           )),
                           context: context,
-                          builder: (context) => addProduct(date, context)),
+                          builder: (context) => addProductClass()),
                       icon: const Icon(Icons.add, color: Colors.white),
                     ),
                   )

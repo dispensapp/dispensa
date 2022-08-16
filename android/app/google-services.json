@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "946638284391-dev7d16guir8e6dgm8oidclu4j3eav07.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.dispensa",
+            "certificate_hash": "ff53053c18f7776091078868a343d641e99b3015"
+          }
+        },
+        {
           "client_id": "946638284391-ecfqn7a1t4mkkrikb9vmkipa730edvli.apps.googleusercontent.com",
           "client_type": 3
         }
