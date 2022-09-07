@@ -1,8 +1,9 @@
 // aggiungi prodotto
 // ignore_for_file: prefer_const_constructors, unnecessary_new, camel_case_types
-
+import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'dart:core';
-import 'dart:ffi';
+import 'dart:io' as io;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dispensa/utils/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -23,11 +24,11 @@ class addProductClass extends StatefulWidget {
   _addProductClassState createState() => _addProductClassState();
 }
 
+DateTime date = DateTime.now();
+
 class _addProductClassState extends State<addProductClass> {
   @override
   Widget build(BuildContext context) {
-    DateTime date = DateTime.now();
-
     return Container(
         padding: EdgeInsets.all(20),
         child: Column(children: [
@@ -48,8 +49,7 @@ class _addProductClassState extends State<addProductClass> {
               child: TextFormField(
                 controller: numberController,
                 decoration: const InputDecoration(
-                    border: UnderlineInputBorder(),
-                    labelText: 'Numero del prodotto'),
+                    border: UnderlineInputBorder(), labelText: 'Quantità'),
               )),
           Text('${date.year}-${date.month}-${date.day}',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
@@ -64,18 +64,27 @@ class _addProductClassState extends State<addProductClass> {
                 setState(() => date = newDate);
               },
               child: Text("Inserisci la data di scadenza")),
-          ElevatedButton(
-            child: Text('Aggiungi'),
-            onPressed: () {
-              insertData(nameController.text, numberController.text,
-                  '${date.year}-${date.month}-${date.day}');
-            },
-          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: PALETTE_BLUE,
+                minimumSize: Size.fromHeight(50), // NEW
+              ),
+              child: Text('Aggiungi'),
+              onPressed: () {
+                insertData(
+                    nameController.text,
+                    int.parse(numberController.text),
+                    '${date.year}-${date.month}-${date.day}');
+              },
+            ),
+          )
         ]));
   }
 }
 
-void insertData(String name, String number, String expirationDate) {
+void insertData(String name, int number, String expirationDate) {
   db
       .collection('users')
       .doc(FirebaseAuth.instance.currentUser!.uid.toString())

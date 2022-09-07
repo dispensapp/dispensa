@@ -11,8 +11,8 @@ import 'package:dispensa/widget/sign_up_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -164,6 +164,7 @@ header(Container content, context) {
 
 Future scanBarCode() async {
   String scanResult;
+
   try {
     scanResult = await FlutterBarcodeScanner.scanBarcode(
         "#ff6666", "Cancel", true, ScanMode.BARCODE);

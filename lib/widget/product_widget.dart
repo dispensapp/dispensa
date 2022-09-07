@@ -21,10 +21,7 @@ class GetProduct extends StatelessWidget {
 
     return Container(
         padding: EdgeInsets.only(left: 20, right: 20, top: 15, bottom: 15),
-        margin: EdgeInsets.only(top: 20),
-        decoration: BoxDecoration(
-            color: PALETTE_WHITE,
-            borderRadius: BorderRadius.all(Radius.circular(10))),
+        decoration: BoxDecoration(color: PALETTE_WHITE),
         child: FutureBuilder<DocumentSnapshot>(
           future: productsData.doc(documentId).get(),
           builder: ((context, snapshot) {

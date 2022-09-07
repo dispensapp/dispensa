@@ -30,7 +30,7 @@ class _StoragePage extends State<StoragePage> {
   @override
   Widget build(BuildContext context) {
     Container content = Container(
-      margin: EdgeInsets.all(30),
+      margin: EdgeInsets.only(top: 30),
       child: FutureBuilder(
           future: getDocId(),
           builder: (context, snapshot) {
