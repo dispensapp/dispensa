@@ -22,7 +22,7 @@ class HomePage extends StatelessWidget {
             style:
                 DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0),
           ),
-          /*Container(
+          Container(
               margin: EdgeInsets.only(top: 20),
               decoration: BoxDecoration(
                   color: PALETTE_WHITE,
@@ -45,7 +45,7 @@ class HomePage extends StatelessWidget {
                             value: 0.7,
                             backgroundColor: Color.fromARGB(255, 255, 233, 188),
                             color: PALETTE_DARK_YELLOW)
-                      ]))),*/
+                      ]))),
           Container(
               margin: EdgeInsets.only(top: 20),
               child: Column(
@@ -112,6 +112,7 @@ class HomePage extends StatelessWidget {
                               Text("Pan di stelle"),
                               Container(
                                 padding: EdgeInsets.all(7),
+                                margin: EdgeInsets.only(top: 15),
                                 decoration: BoxDecoration(
                                     color: PALETTE_LIGHT_YELLOW,
                                     borderRadius:
@@ -122,38 +123,6 @@ class HomePage extends StatelessWidget {
                           )
                         ])
                   ])),
-          Container(
-              margin: EdgeInsets.only(top: 20),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Text("RISPARMIA",
-                        style: DefaultTextStyle.of(context)
-                            .style
-                            .apply(fontSizeFactor: 1)),
-                    SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                            padding: EdgeInsets.all(15),
-                            child: Column(
-                              children: [
-                                Text("Esselunga"),
-                                Container(
-                                  padding: EdgeInsets.all(7),
-                                  decoration: BoxDecoration(
-                                      color: PALETTE_LIGHT_YELLOW,
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(5))),
-                                  child: Text("20 FEB"),
-                                )
-                              ],
-                            ))
-                      ],
-                    )
-                  ]))
         ],
       ),
     );

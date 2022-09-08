@@ -83,31 +83,8 @@ header(Container content, context) {
                   margin: EdgeInsets.only(top: 20, left: 10),
                   child: Row(children: [
                     PopUpMenu(
+                      //set margin
                       menuList: const [
-                        PopupMenuItem(
-                          child: ListTile(
-                            leading: Icon(
-                              CupertinoIcons.person,
-                            ),
-                            title: Text("My Profile"),
-                          ),
-                        ),
-                        PopupMenuItem(
-                          child: ListTile(
-                            leading: Icon(
-                              CupertinoIcons.bag,
-                            ),
-                            title: Text("My Bag"),
-                          ),
-                        ),
-                        PopupMenuDivider(),
-                        PopupMenuItem(
-                          child: Text("Settings"),
-                        ),
-                        PopupMenuItem(
-                          child: Text("About Us"),
-                        ),
-                        PopupMenuDivider(),
                         PopupMenuItem(
                           child: ListTile(
                             leading: Icon(
