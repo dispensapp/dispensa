@@ -139,18 +139,7 @@ header(Container content, context) {
   ));
 }
 
-Future scanBarCode() async {
-  String scanResult;
 
-  try {
-    scanResult = await FlutterBarcodeScanner.scanBarcode(
-        "#ff6666", "Cancel", true, ScanMode.BARCODE);
-  } on PlatformException {
-    scanResult = 'Failed to get platform version.';
-  }
-
-  //if (!mounted) return;
-}
 
 class PopUpMenu extends StatelessWidget {
   final List<PopupMenuEntry> menuList;

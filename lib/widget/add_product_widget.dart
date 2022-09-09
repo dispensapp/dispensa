@@ -1,16 +1,25 @@
 // aggiungi prodotto
 // ignore_for_file: prefer_const_constructors, unnecessary_new, camel_case_types
+import 'package:dispensa/index.dart';
 import 'package:flutter/material.dart';
 import 'dart:core';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dispensa/utils/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'dart:async';
+
+import 'package:openfoodfacts/model/OcrIngredientsResult.dart';
+import 'package:openfoodfacts/openfoodfacts.dart';
+import 'package:openfoodfacts/utils/TagType.dart';
 
 final db = FirebaseFirestore.instance;
 
 var nameController = new TextEditingController();
 var numberController = new TextEditingController();
 var dateController = new TextEditingController();
+var imageController = new TextEditingController();
 
 class addProductClass extends StatefulWidget {
   @override
@@ -20,6 +29,7 @@ class addProductClass extends StatefulWidget {
 DateTime date = DateTime.now();
 
 class _addProductClassState extends State<addProductClass> {
+  String? scanResult;
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -36,9 +46,19 @@ class _addProductClassState extends State<addProductClass> {
                   Text('Aggiungi un prodotto',
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
-                  SizedBox(
-                    height: 20,
+                  ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.black,
+                      backgroundColor: PALETTE_LIGHT_YELLOW,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                    icon: Icon(Icons.camera_alt_outlined),
+                    label: Text('Scannerizza'),
+                    onPressed: scanBarCode,
                   ),
+
                   Padding(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
@@ -54,6 +74,7 @@ class _addProductClassState extends State<addProductClass> {
                       decoration: InputDecoration(
                         suffixIcon: Icon(Icons.food_bank_rounded),
                         labelText: 'Nome del prodotto',
+                        hintText: nameController.text,
                         border: OutlineInputBorder(),
                       ),
                     ),
@@ -80,11 +101,11 @@ class _addProductClassState extends State<addProductClass> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8, vertical: 16),
                       child: TextFormField(
-                        keyboardType: TextInputType.text,
+                        showCursor: true,
                         decoration: InputDecoration(
                           suffixIcon: Icon(Icons.date_range_rounded),
                           labelText: 'Data di scadenza',
-                          prefixText: '${date.year}-${date.month}-${date.day}',
+                          hintText: dateController.text,
                           border: OutlineInputBorder(),
                         ),
                         //check if there is content
@@ -93,7 +114,7 @@ class _addProductClassState extends State<addProductClass> {
                             : int.tryParse(value) == null
                                 ? 'Inserisci una data'
                                 : null,
-                        controller: numberController,
+                        controller: dateController,
                         onTap: () async {
                           DateTime? newDate = await showDatePicker(
                               context: context,
@@ -101,7 +122,8 @@ class _addProductClassState extends State<addProductClass> {
                               firstDate: DateTime(1900),
                               lastDate: DateTime(2100));
                           if (newDate == null) return;
-                          setState(() => date = newDate);
+                          setState(() => dateController.text =
+                              '${newDate.year}-${newDate.month}-${newDate.day}');
                         },
                       )),
                   Align(
@@ -140,6 +162,35 @@ class _addProductClassState extends State<addProductClass> {
       ],
     );
   }
+
+  Future scanBarCode() async {
+    try {
+      scanResult = await FlutterBarcodeScanner.scanBarcode(
+          "#ff6666", "Cancel", true, ScanMode.BARCODE);
+
+      print(scanResult);
+
+      ProductQueryConfiguration configuration = ProductQueryConfiguration(
+          scanResult!,
+          language: OpenFoodFactsLanguage.ITALIAN,
+          fields: [ProductField.ALL]);
+      ProductResult result = await OpenFoodAPIClient.getProduct(configuration);
+
+      if (result.status == 1) {
+        print(result.product);
+        nameController.text = result.product?.productName! as String;
+        imageController.text = result.product?.imageFrontUrl as String;
+      } else {
+        throw Exception(
+            'product not found, please insert data for $scanResult');
+      }
+      return null;
+    } on PlatformException {
+      scanResult = 'Non è stato possibile trovare il prodotto.';
+    }
+
+    //if (!mounted) return;
+  }
 }
 
 void insertData(String name, int number, String expirationDate) {
@@ -152,5 +203,6 @@ void insertData(String name, int number, String expirationDate) {
     'name': name,
     'number': number,
     'expirationDate': expirationDate,
+    'image': imageController.text
   });
 }

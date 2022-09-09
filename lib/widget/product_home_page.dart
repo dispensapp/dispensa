@@ -1,14 +1,34 @@
+// ignore_for_file: prefer_const_constructors
+
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'dart:core';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dispensa/utils/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-//create product card in home page class
+final db = FirebaseDatabase.instance
+    .ref("users/${FirebaseAuth.instance.currentUser!.uid.toString()}/dispensa");
 
 class ProductCard extends StatelessWidget {
+  const ProductCard({super.key});
+  Future<List<String>> getDocId() async {
+    List<String> dataIDs = [];
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid.toString())
+        .collection("dispensa")
+        .get()
+        .then((snapshot) => snapshot.docs.forEach((document) {
+              print("ciao ${document.reference.id}");
+            }));
+    return dataIDs;
+  }
+
   @override
   Widget build(BuildContext context) {
+    //read each element in dispensa collection
+
     return Container(
       //set shadow
       decoration: const BoxDecoration(
