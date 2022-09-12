@@ -39,6 +39,7 @@ dependencies:
   cloud_firestore: ^3.2.1
   google_sign_in: ^5.3.3
   firebase_auth: ^3.4.1
+  dynamic_color: ^1.3.0
 
   # Google icon
   font_awesome_flutter: ^10.1.0

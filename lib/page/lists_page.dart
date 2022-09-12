@@ -20,22 +20,15 @@ class ListsPage extends StatelessWidget {
                     .style
                     .apply(fontSizeFactor: 2.0),
               ),
-              SizedBox(height: 15),
-              CalendarTimeline(
-                initialDate: DateTime.now(),
-                firstDate: DateTime(2019, 1, 15),
-                lastDate: DateTime(2030, 11, 20),
-                onDateSelected: (date) => print(date),
-                leftMargin: 0,
-                monthColor: Colors.black,
-                dayColor: Colors.grey[800],
-                activeDayColor: Colors.black,
-                activeBackgroundDayColor: PALETTE_LIGHT_YELLOW,
-                dotsColor: Color(0xFF333A47),
-                //selectableDayPredicate: (date) => date.day != 23,
-                locale: 'en_ISO',
+              //create floating action button in bottom of screen
+
+              FloatingActionButton.extended(
+                onPressed: () {},
+                icon: const Icon(Icons.edit),
+                label: const Text('Edit'),
               ),
-              SizedBox(height: 10),
+
+              //add bottom button
             ]));
     return header(content, context);
   }
