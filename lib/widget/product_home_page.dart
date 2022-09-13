@@ -19,50 +19,47 @@ class productCard extends StatelessWidget {
         .doc(user?.uid)
         .collection("dispensa");
 
-    return Container(
-        padding: EdgeInsets.only(left: 20, right: 20, top: 15, bottom: 15),
-        decoration: BoxDecoration(color: PALETTE_WHITE),
-        child: FutureBuilder<DocumentSnapshot>(
-          future: productsData.doc(documentId).get(),
-          builder: ((context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              Map<String, dynamic> data =
-                  snapshot.data!.data() as Map<String, dynamic>;
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Image.asset('assets/images/test.png', width: 50),
-                      Container(
-                        margin: EdgeInsets.only(left: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("${data['name']}",
-                                style: DefaultTextStyle.of(context)
-                                    .style
-                                    .apply(fontSizeFactor: 1.5)),
-                            Text("${data['expirationDate']}")
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                  Container(
-                      padding: EdgeInsets.only(
-                          left: 15, right: 15, top: 10, bottom: 10),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(20))),
-                      child: Column(
-                        children: [Text("${data['number']}"), Text("pz")],
-                      ))
-                ],
-              );
-            }
-            return Text("Loading");
-          }),
-        ));
+    return FutureBuilder<DocumentSnapshot>(
+      future: productsData.doc(documentId).get(),
+      builder: ((context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          Map<String, dynamic> data =
+              snapshot.data!.data() as Map<String, dynamic>;
+          DateTime expirDateConv = DateTime.parse(data['expirationDate']);
+          //create a card in material ui 3
+          return Container(
+            //set content to start
+            alignment: Alignment.centerLeft,
+            //set padding
+            child: Column(
+              children: [
+                Image.network(
+                    "https://www.antoniopaolillo.com/wp-content/uploads/2020/03/mela-rossa-1-scaled.jpg",
+                    width: 50),
+                Text("${data['name']}",
+                    style: DefaultTextStyle.of(context)
+                        .style
+                        .apply(fontSizeFactor: 1.5)),
+                //trasforma la data di scadenza in giorni
+                //trasforma la stringa expirationDate in datetime
+
+                Container(
+                  //set padding and background color
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                      color: PALETTE_WHITE,
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                  child: Text(
+                      "${expirDateConv.difference(DateTime.now()).inDays} giorni"),
+                ),
+                Text("${data['number']} pz")
+              ],
+            ),
+          );
+        }
+
+        return Text("Loading");
+      }),
+    );
   }
 }

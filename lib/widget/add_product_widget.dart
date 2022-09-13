@@ -8,6 +8,7 @@ import 'package:dispensa/utils/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:intl/intl.dart';
 import 'dart:async';
 
 import 'package:openfoodfacts/model/OcrIngredientsResult.dart';
@@ -28,13 +29,15 @@ class addProductClass extends StatefulWidget {
 
 DateTime date = DateTime.now();
 
+// something like 2013-04-20
+
 class _addProductClassState extends State<addProductClass> {
   String? scanResult;
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisSize: MainAxisSize.max,
+      mainAxisSize: MainAxisSize.min,
       children: [
         Container(
             padding: EdgeInsets.all(20),
@@ -43,9 +46,6 @@ class _addProductClassState extends State<addProductClass> {
                 child: Column(children: [
                   // insert gap
 
-                  Text('Aggiungi un prodotto',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w500)),
                   ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.black,
@@ -102,18 +102,14 @@ class _addProductClassState extends State<addProductClass> {
                           horizontal: 8, vertical: 16),
                       child: TextFormField(
                         showCursor: true,
+                        //hide keyboard
+                        readOnly: true,
                         decoration: InputDecoration(
                           suffixIcon: Icon(Icons.date_range_rounded),
                           labelText: 'Data di scadenza',
                           hintText: dateController.text,
                           border: OutlineInputBorder(),
                         ),
-                        //check if there is content
-                        validator: (value) => value!.isEmpty
-                            ? 'Inserisci una data'
-                            : int.tryParse(value) == null
-                                ? 'Inserisci una data'
-                                : null,
                         controller: dateController,
                         onTap: () async {
                           DateTime? newDate = await showDatePicker(
@@ -122,6 +118,7 @@ class _addProductClassState extends State<addProductClass> {
                               firstDate: DateTime(1900),
                               lastDate: DateTime(2100));
                           if (newDate == null) return;
+
                           setState(() => dateController.text =
                               '${newDate.year}-${newDate.month}-${newDate.day}');
                         },
@@ -155,7 +152,10 @@ class _addProductClassState extends State<addProductClass> {
                           }
                         }
                       },
-                      child: Text('Aggiungi'),
+                      child: Text('Aggiungi'
+                          //text color white
+
+                          ),
                     ),
                   )
                 ])))

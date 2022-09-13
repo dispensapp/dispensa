@@ -68,7 +68,7 @@ class HomePage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    Text("SCADENZE",
+                    Text("DISPENSA",
                         style: DefaultTextStyle.of(context)
                             .style
                             .apply(fontSizeFactor: 1)),
@@ -77,6 +77,8 @@ class HomePage extends StatelessWidget {
                         future: getDocId(),
                         builder: (context, snapshot) {
                           return ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
                             itemCount: dataIDs.length,
                             itemBuilder: (BuildContext context, int index) {
                               return productCard(
