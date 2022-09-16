@@ -22,16 +22,16 @@ var numberController = new TextEditingController();
 var dateController = new TextEditingController();
 var imageController = new TextEditingController();
 
-class addProductClass extends StatefulWidget {
+class addListElementClass extends StatefulWidget {
   @override
-  _addProductClassState createState() => _addProductClassState();
+  _addListElementClassState createState() => _addListElementClassState();
 }
 
 DateTime date = DateTime.now();
 
 // something like 2013-04-20
 
-class _addProductClassState extends State<addProductClass> {
+class _addListElementClassState extends State<addListElementClass> {
   String? scanResult;
   final _formKey = GlobalKey<FormState>();
   @override
@@ -45,58 +45,27 @@ class _addProductClassState extends State<addProductClass> {
                 key: _formKey,
                 child: Column(children: [
                   // insert gap
-
-                  ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.black,
-                      backgroundColor: PALETTE_LIGHT_YELLOW,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
-                    icon: Icon(Icons.camera_alt_outlined),
-                    label: Text('Scannerizza'),
-                    onPressed: scanBarCode,
-                  ),
-
                   Padding(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                     child: TextFormField(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter some text';
+                          return 'Inserisci il nome della lista';
                         }
                         return null;
                       },
                       controller: nameController,
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
-                        suffixIcon: Icon(Icons.food_bank_rounded),
-                        labelText: 'Nome del prodotto',
+                        suffixIcon: Icon(Icons.list),
+                        labelText: 'Nome della lista',
                         hintText: nameController.text,
                         border: OutlineInputBorder(),
                       ),
                     ),
                   ),
-                  Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 16),
-                      child: TextFormField(
-                        keyboardType: TextInputType.text,
-                        decoration: InputDecoration(
-                          suffixIcon: Icon(Icons.format_list_numbered_outlined),
-                          labelText: 'Quantità del prodotto',
-                          border: OutlineInputBorder(),
-                        ),
-                        //check if there is content in the field and if the content is a number
-                        validator: (value) => value!.isEmpty
-                            ? 'Inserisci un numero'
-                            : int.tryParse(value) == null
-                                ? 'Inserisci un numero'
-                                : null,
-                        controller: numberController,
-                      )),
+
                   Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8, vertical: 16),
@@ -105,29 +74,12 @@ class _addProductClassState extends State<addProductClass> {
                         //hide keyboard
                         readOnly: true,
                         decoration: InputDecoration(
-                          suffixIcon: Icon(Icons.date_range_rounded),
-                          labelText: 'Data di scadenza',
+                          suffixIcon: Icon(Icons.color_lens),
+                          labelText: 'Colore',
                           hintText: dateController.text,
                           border: OutlineInputBorder(),
                         ),
                         controller: dateController,
-                        onTap: () async {
-                          DateTime? newDate = await showDatePicker(
-                              context: context,
-                              initialDate: date,
-                              firstDate: DateTime(1900),
-                              lastDate: DateTime(2100));
-                          if (newDate == null) return;
-
-                          //trasform date into yyyymmdd
-                          setState(() {
-                            date = newDate;
-                            String formattedDate =
-                                DateFormat('yyyy-MM-dd').format(newDate);
-
-                            dateController.text = formattedDate;
-                          });
-                        },
                       )),
                   Align(
                     alignment: Alignment.bottomCenter,
@@ -158,10 +110,11 @@ class _addProductClassState extends State<addProductClass> {
                           }
                         }
                       },
-                      child: Text('Aggiungi'
-                          //text color white
-
-                          ),
+                      child: Text('Aggiungi',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold)),
                     ),
                   )
                 ])))
@@ -169,46 +122,15 @@ class _addProductClassState extends State<addProductClass> {
     );
   }
 
-  Future scanBarCode() async {
-    try {
-      scanResult = await FlutterBarcodeScanner.scanBarcode(
-          "#ff6666", "Cancel", true, ScanMode.BARCODE);
-
-      print(scanResult);
-
-      ProductQueryConfiguration configuration = ProductQueryConfiguration(
-          scanResult!,
-          language: OpenFoodFactsLanguage.ITALIAN,
-          fields: [ProductField.ALL]);
-      ProductResult result = await OpenFoodAPIClient.getProduct(configuration);
-
-      if (result.status == 1) {
-        print(result.product);
-        nameController.text = result.product?.productName! as String;
-        imageController.text = result.product?.imageFrontUrl as String;
-      } else {
-        throw Exception(
-            'product not found, please insert data for $scanResult');
-      }
-      return null;
-    } on PlatformException {
-      scanResult = 'Non è stato possibile trovare il prodotto.';
-    }
-
-    //if (!mounted) return;
+  void insertData(String name, int number, String expirationDate) {
+    db
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid.toString())
+        .collection('liste')
+        .doc(nameController.text)
+        .set({
+      'name': name,
+      'color': number,
+    });
   }
-}
-
-void insertData(String name, int number, String expirationDate) {
-  db
-      .collection('users')
-      .doc(FirebaseAuth.instance.currentUser!.uid.toString())
-      .collection('dispensa')
-      .doc(nameController.text)
-      .set({
-    'name': name,
-    'number': number,
-    'expirationDate': expirationDate,
-    'image': imageController.text
-  });
 }

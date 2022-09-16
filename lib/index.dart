@@ -53,10 +53,6 @@ class _MainPageState extends State<MainPage> {
                   icon: Icon(Icons.calendar_month_outlined),
                   label: 'Liste',
                 ),
-                NavigationDestination(
-                  icon: Icon(Icons.money_outlined),
-                  label: 'Risparmia',
-                ),
               ],
             )),
       );
@@ -138,8 +134,6 @@ header(Container content, context) {
     )),
   ));
 }
-
-
 
 class PopUpMenu extends StatelessWidget {
   final List<PopupMenuEntry> menuList;

@@ -2,15 +2,15 @@
 
 import 'package:flutter/material.dart';
 import '../index.dart';
-import '../utils/constants.dart';
-import 'package:calendar_timeline/calendar_timeline.dart';
+
+import '../widget/add_list_element.dart';
 
 class ListsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Container content = Container(
         margin: EdgeInsets.all(30),
-        child: Column(
+        child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
@@ -21,14 +21,6 @@ class ListsPage extends StatelessWidget {
                     .apply(fontSizeFactor: 2.0),
               ),
               //create floating action button in bottom of screen
-
-              FloatingActionButton.extended(
-                onPressed: () {},
-                icon: const Icon(Icons.edit),
-                label: const Text('Edit'),
-              ),
-
-              //add bottom button
             ]));
     return header(content, context);
   }
