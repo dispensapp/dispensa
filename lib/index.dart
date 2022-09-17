@@ -1,6 +1,4 @@
 // ignore_for_file: library_private_types_in_public_api, prefer_const_constructors, use_key_in_widget_constructors, dead_code
-
-import 'package:dispensa/page/buy_page.dart';
 import 'package:dispensa/page/lists_page.dart';
 import 'package:dispensa/page/home_page.dart';
 import 'package:dispensa/page/storage_page.dart';
@@ -21,9 +19,10 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   int index = 0;
-  final screens = [HomePage(), StoragePage(), ListsPage(), BuyPage()];
+  final screens = [HomePage(), StoragePage(), ListsPage()];
   @override
   Widget build(BuildContext context) => Scaffold(
+        //white background
         body: screens[index],
         bottomNavigationBar: NavigationBarTheme(
             data: NavigationBarThemeData(
@@ -58,14 +57,14 @@ class _MainPageState extends State<MainPage> {
       );
 }
 
-header(Container content, context) {
+header(Scaffold content, context) {
   DateTime date = DateTime.now();
   final user = FirebaseAuth.instance.currentUser;
 
   //final user = FirebaseAuth.instance.currentUser!;
   return Scaffold(
       body: Container(
-    color: PALETTE_BLUE,
+    color: PALETTE_DARK_YELLOW,
     child: SafeArea(
         child: SingleChildScrollView(
       child: Column(
@@ -92,7 +91,7 @@ header(Container content, context) {
                         ),
                       ],
                       icon: CircleAvatar(
-                        radius: 25,
+                        radius: 15,
                         backgroundImage: NetworkImage(user!.photoURL!),
                       ),
                     )
@@ -144,8 +143,11 @@ class PopUpMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton(
+      //set border black
+      offset: const Offset(0, 50),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16.0),
+        side: const BorderSide(color: Colors.black),
       ),
       itemBuilder: ((context) => menuList),
       icon: icon,

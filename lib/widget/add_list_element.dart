@@ -29,8 +29,6 @@ class addListElementClass extends StatefulWidget {
 
 DateTime date = DateTime.now();
 
-// something like 2013-04-20
-
 class _addListElementClassState extends State<addListElementClass> {
   String? scanResult;
   final _formKey = GlobalKey<FormState>();

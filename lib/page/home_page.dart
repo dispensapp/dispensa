@@ -5,7 +5,9 @@ import 'package:dispensa/widget/product_home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../index.dart';
+import '../provider/google_sign_in.dart';
 import '../utils/constants.dart';
+import '../widget/add_product_widget.dart';
 import '../widget/product_widget.dart';
 
 class HomePage extends StatelessWidget {
@@ -14,11 +16,11 @@ class HomePage extends StatelessWidget {
   List<String> dataIDs = [];
 
   //get data from Firestore
-  Future getDocId() async {
+  Future getDocId(type) async {
     await FirebaseFirestore.instance
         .collection("users")
         .doc(FirebaseAuth.instance.currentUser!.uid.toString())
-        .collection("dispensa")
+        .collection(type)
         .get()
         .then((snapshot) => snapshot.docs.forEach((document) {
               dataIDs.add(document.reference.id);
@@ -27,17 +29,62 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Container content = Container(
+    return Scaffold(
+        body: Container(
       margin: EdgeInsets.all(30),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Text(
-            'Bentornato, ${user!.displayName!.substring(0, user!.displayName!.indexOf(' '))}!',
-            style:
-                DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0),
+          Container(
+            //set margin top
+            margin: EdgeInsets.only(top: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    CircleAvatar(
+                      //set margin
+                      radius: 15,
+                      backgroundImage: NetworkImage(user!.photoURL!),
+                    ),
+                    //insert space between avatar and text
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Bentornato,',
+                          style: DefaultTextStyle.of(context).style.apply(
+                                fontSizeFactor: 0.8,
+                              ),
+                        ),
+                        Text(
+                          user!.displayName.toString(),
+                          style: DefaultTextStyle.of(context).style.apply(
+                              fontSizeFactor: 1.2,
+                              color: Color.fromARGB(255, 26, 26, 26)),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                IconButton(
+                    icon: const Icon(
+                      Icons.logout,
+                      //set color
+                      color: Colors.black,
+                    ),
+                    onPressed: logout),
+              ],
+            ),
           ),
+          //create header with start "welcome back" at start of screen and image of the user at the end
+
           Container(
               margin: EdgeInsets.only(top: 20),
               decoration: BoxDecoration(
@@ -65,6 +112,7 @@ class HomePage extends StatelessWidget {
           Container(
               margin: EdgeInsets.only(top: 20),
               child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
@@ -73,29 +121,54 @@ class HomePage extends StatelessWidget {
                             .style
                             .apply(fontSizeFactor: 1)),
                     SizedBox(height: 10),
-                    FutureBuilder(
-                        future: getDocId(),
-                        builder: (context, snapshot) {
-                          return ListView.builder(
-                            scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
-                            itemCount: dataIDs.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return productCard(
-                                documentId: dataIDs[index],
-                              );
-                            },
-                          );
-                        }),
-                    SizedBox(height: 10),
+                    ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxHeight: 150,
+                      ),
+                      child: FutureBuilder(
+                          future: getDocId("dispensa"),
+                          builder: (context, snapshot) {
+                            return ListView.builder(
+                              //insert card margin
+                              scrollDirection: Axis.horizontal,
+                              shrinkWrap: true,
+                              itemCount: dataIDs.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return productCard(
+                                  documentId: dataIDs[index],
+                                );
+                              },
+                            );
+                          }),
+                    ),
                     Text("LISTE",
                         style: DefaultTextStyle.of(context)
                             .style
                             .apply(fontSizeFactor: 1)),
+                    SizedBox(height: 10),
+                    ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxHeight: 150,
+                      ),
+                      child: FutureBuilder(
+                          future: getDocId("liste"),
+                          builder: (context, snapshot) {
+                            return ListView.builder(
+                              //insert card margin
+                              scrollDirection: Axis.horizontal,
+                              shrinkWrap: true,
+                              itemCount: dataIDs.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return productCard(
+                                  documentId: dataIDs[index],
+                                );
+                              },
+                            );
+                          }),
+                    ),
                   ])),
         ],
       ),
-    );
-    return header(content, context);
+    ));
   }
 }

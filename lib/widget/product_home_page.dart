@@ -28,6 +28,7 @@ class productCard extends StatelessWidget {
           DateTime expirDateConv = DateTime.parse(data['expirationDate']);
           //create a card in material ui 3
           return Container(
+            margin: EdgeInsets.only(right: 30),
             //set content to start
             alignment: Alignment.centerLeft,
             //set padding
@@ -58,7 +59,7 @@ class productCard extends StatelessWidget {
           );
         }
 
-        return Text("Loading");
+        return Text("Caricamento");
       }),
     );
   }
