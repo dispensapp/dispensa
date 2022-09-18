@@ -36,7 +36,8 @@ class _addProductClassState extends State<addProductClass> {
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Scaffold(
+        body: Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
@@ -44,7 +45,7 @@ class _addProductClassState extends State<addProductClass> {
             child: Form(
                 key: _formKey,
                 child: Column(children: [
-                  // insert gap
+                  // intert image field
 
                   ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
@@ -166,7 +167,7 @@ class _addProductClassState extends State<addProductClass> {
                   )
                 ])))
       ],
-    );
+    ));
   }
 
   Future scanBarCode() async {

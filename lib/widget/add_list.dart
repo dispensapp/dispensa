@@ -1,40 +1,27 @@
 // aggiungi prodotto
 // ignore_for_file: prefer_const_constructors, unnecessary_new, camel_case_types
-import 'package:dispensa/index.dart';
 import 'package:flutter/material.dart';
 import 'dart:core';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dispensa/utils/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:intl/intl.dart';
-import 'dart:async';
-
-import 'package:openfoodfacts/model/OcrIngredientsResult.dart';
-import 'package:openfoodfacts/openfoodfacts.dart';
-import 'package:openfoodfacts/utils/TagType.dart';
 
 final db = FirebaseFirestore.instance;
 
 var nameController = new TextEditingController();
-var numberController = new TextEditingController();
-var dateController = new TextEditingController();
-var imageController = new TextEditingController();
+var colorController = new TextEditingController();
 
-class addListElementClass extends StatefulWidget {
-  @override
-  _addListElementClassState createState() => _addListElementClassState();
-}
+class addListElementClass extends StatelessWidget {
+  DateTime date = DateTime.now();
 
-DateTime date = DateTime.now();
-
-class _addListElementClassState extends State<addListElementClass> {
   String? scanResult;
   final _formKey = GlobalKey<FormState>();
+
+  addListElementClass({super.key});
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Scaffold(
+        body: Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
@@ -68,16 +55,14 @@ class _addListElementClassState extends State<addListElementClass> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8, vertical: 16),
                       child: TextFormField(
-                        showCursor: true,
-                        //hide keyboard
-                        readOnly: true,
+                        keyboardType: TextInputType.text,
                         decoration: InputDecoration(
                           suffixIcon: Icon(Icons.color_lens),
                           labelText: 'Colore',
-                          hintText: dateController.text,
+                          hintText: colorController.text,
                           border: OutlineInputBorder(),
                         ),
-                        controller: dateController,
+                        controller: colorController,
                       )),
                   Align(
                     alignment: Alignment.bottomCenter,
@@ -95,9 +80,7 @@ class _addListElementClassState extends State<addListElementClass> {
                           // you'd often call a server or save the information in a database.
                           try {
                             insertData(
-                                nameController.text,
-                                int.parse(numberController.text),
-                                dateController.text);
+                                nameController.text, colorController.text);
                             Navigator.pop(context);
                             _formKey.currentState?.reset();
                           } catch (e) {
@@ -117,10 +100,13 @@ class _addListElementClassState extends State<addListElementClass> {
                   )
                 ])))
       ],
-    );
+    ));
   }
 
-  void insertData(String name, int number, String expirationDate) {
+  void insertData(
+    String name,
+    String color,
+  ) {
     db
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid.toString())
@@ -128,7 +114,7 @@ class _addListElementClassState extends State<addListElementClass> {
         .doc(nameController.text)
         .set({
       'name': name,
-      'color': number,
+      'color': color,
     });
   }
 }

@@ -1,7 +1,7 @@
 // ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, sort_child_properties_last, camel_case_types
 
 import 'package:flutter/material.dart';
-import '../widget/add_list_element.dart';
+import '../widget/add_list.dart';
 
 class ListsPage extends StatelessWidget {
   @override
