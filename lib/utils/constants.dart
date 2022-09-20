@@ -8,7 +8,7 @@ const BOTTOM_RED = Color.fromRGBO(255, 240, 240, 1);
 const LIGHT_RED = Color.fromRGBO(255, 238, 238, 1);
 const SECONDARY_LIGHT_RED = Color.fromRGBO(255, 231, 231, 1);
 const PROGRESS_RED = Color.fromRGBO(255, 195, 195, 1);
-const LIGHT_GRAY = Color.fromRGBO(251, 251, 251, 1);
+const LIGHT_GRAY = Color.fromARGB(255, 234, 233, 233);
 
 // new color palette
 const PALETTE_BLUE = Color.fromRGBO(0, 48, 73, 1);

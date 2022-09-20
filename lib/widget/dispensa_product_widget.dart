@@ -3,6 +3,7 @@
 import 'dart:core';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dispensa/utils/constants.dart';
+import 'package:dispensa/widget/add_product.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -26,6 +27,57 @@ class productCard extends StatelessWidget {
           Map<String, dynamic> data =
               snapshot.data!.data() as Map<String, dynamic>;
           DateTime expirDateConv = DateTime.parse(data['expirationDate']);
+          //if dispensa has no content
+          if (data.isEmpty) {
+            return GestureDetector(
+                onTap: () {
+                  //open create list class
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => addProductClass()),
+                  );
+                },
+                child: Container(
+                    width: 150,
+                    padding: EdgeInsets.all(20),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: PALETTE_WHITE,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.1),
+                          spreadRadius: 1,
+                          blurRadius: 2,
+                          offset: Offset(0, 3), // changes position of shadow
+                        ),
+                      ],
+                    ),
+                    //text nessun element nella lista
+                    child: Column(
+                      //center content
+                      children: const [
+                        //add icon
+                        Icon(
+                          Icons.add_box,
+                          color: PALETTE_DARK_YELLOW,
+                          size: 50,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+
+                        Text("Nessun prodotto disponibile",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold)),
+                        Text("Clicca qui per aggiungerne uno!")
+                      ],
+                    )));
+          }
+
           //create a card in material ui 3
           return Container(
               //insert min width
@@ -116,8 +168,7 @@ class productCard extends StatelessWidget {
                 ],
               ));
         }
-
-        return Text("Caricamento");
+        return Text("");
       }),
     );
   }

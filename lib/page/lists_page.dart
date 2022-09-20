@@ -1,5 +1,6 @@
 // ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, sort_child_properties_last, camel_case_types
 
+import 'package:dispensa/utils/constants.dart';
 import 'package:flutter/material.dart';
 import '../widget/add_list.dart';
 
@@ -8,7 +9,10 @@ class ListsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         floatingActionButton: FloatingActionButton(
+          //add color
+          backgroundColor: PALETTE_BLUE,
           onPressed: () {
+            //show addproductclass
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => addListElementClass()),
@@ -16,7 +20,7 @@ class ListsPage extends StatelessWidget {
           },
           child: const Icon(
             Icons.add,
-            color: Colors.black,
+            color: Colors.white,
           ),
         ),
         body: Container(

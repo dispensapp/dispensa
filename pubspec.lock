@@ -216,6 +216,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
+  flutter_mobx:
+    dependency: transitive
+    description:
+      name: flutter_mobx
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.6+4"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -352,6 +359,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0"
+  mobx:
+    dependency: transitive
+    description:
+      name: mobx
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.0"
+  mobx_widget:
+    dependency: "direct main"
+    description:
+      name: mobx_widget
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.1"
   nested:
     dependency: transitive
     description:

@@ -5,31 +5,45 @@ import 'package:dispensa/page/storage_page.dart';
 import 'package:dispensa/widget/dispensa_product_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../index.dart';
 import '../provider/google_sign_in.dart';
 import '../utils/constants.dart';
 import '../widget/add_product.dart';
 import '../widget/lista_product_widget.dart';
-import '../widget/product_widget.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  State<HomePage> createState() => _HomePage();
+}
+
+class _HomePage extends State<HomePage> {
   final FirebaseAuth firebase_auth = FirebaseAuth.instance;
   final user = FirebaseAuth.instance.currentUser;
-  List<String> dataIDs = [];
+  List<String> dataStorageIDs = [];
+  List<String> dataListeIDs = [];
 
   //get data from Firestore
-  Future getDocId(type) async {
+  Future getStorageId() async {
     await FirebaseFirestore.instance
         .collection("users")
         .doc(FirebaseAuth.instance.currentUser!.uid.toString())
-        .collection(type)
+        .collection("dispensa")
         .get()
         .then((snapshot) => snapshot.docs.forEach((document) {
-              dataIDs.add(document.reference.id);
+              dataStorageIDs.add(document.reference.id);
             }));
   }
 
-  @override
+  Future getListeId() async {
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid.toString())
+        .collection("dispensa")
+        .get()
+        .then((snapshot) => snapshot.docs.forEach((document) {
+              dataListeIDs.add(document.reference.id);
+            }));
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
         floatingActionButton: FloatingActionButton(
@@ -163,20 +177,24 @@ class HomePage extends StatelessWidget {
                             maxHeight: 150,
                           ),
                           child: FutureBuilder(
-                              future: getDocId("dispensa"),
+                              future: getStorageId(),
                               builder: (context, snapshot) {
-                                return ListView.builder(
-                                  //insert card margin
-                                  scrollDirection: Axis.horizontal,
-                                  shrinkWrap: true,
-                                  itemCount: dataIDs.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return productCard(
-                                      documentId: dataIDs[index],
-                                    );
-                                  },
-                                );
+                                if (dataStorageIDs.isNotEmpty) {
+                                  return ListView.builder(
+                                    //insert card margin
+                                    scrollDirection: Axis.horizontal,
+                                    shrinkWrap: true,
+                                    itemCount: dataStorageIDs.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return productCard(
+                                        documentId: dataStorageIDs[index],
+                                      );
+                                    },
+                                  );
+                                } else {
+                                  return CircularProgressIndicator();
+                                }
                               }),
                         ),
                         SizedBox(height: 10),
@@ -192,19 +210,23 @@ class HomePage extends StatelessWidget {
                             maxHeight: 151,
                           ),
                           child: FutureBuilder(
-                              future: getDocId("liste"),
+                              future: getListeId(),
                               builder: (context, snapshot) {
-                                return ListView.builder(
-                                  //insert card margin
-                                  scrollDirection: Axis.vertical,
-                                  itemCount: dataIDs.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return listaCard(
-                                      documentId: dataIDs[index],
-                                    );
-                                  },
-                                );
+                                if (dataListeIDs.isNotEmpty) {
+                                  return ListView.builder(
+                                    //insert card margin
+                                    scrollDirection: Axis.vertical,
+                                    itemCount: dataListeIDs.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return listaCard(
+                                        documentId: dataListeIDs[index],
+                                      );
+                                    },
+                                  );
+                                } else {
+                                  return CircularProgressIndicator();
+                                }
                               }),
                         ),
                       ])),

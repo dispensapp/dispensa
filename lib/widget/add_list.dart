@@ -10,6 +10,7 @@ final db = FirebaseFirestore.instance;
 
 var nameController = new TextEditingController();
 var colorController = new TextEditingController();
+var descriptionController = new TextEditingController();
 
 class addListElementClass extends StatelessWidget {
   DateTime date = DateTime.now();
@@ -50,7 +51,20 @@ class addListElementClass extends StatelessWidget {
                       ),
                     ),
                   ),
-
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                    child: TextFormField(
+                      controller: descriptionController,
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                        suffixIcon: Icon(Icons.list),
+                        labelText: 'Descrizione',
+                        hintText: descriptionController.text,
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  ),
                   Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8, vertical: 16),
@@ -80,7 +94,9 @@ class addListElementClass extends StatelessWidget {
                           // you'd often call a server or save the information in a database.
                           try {
                             insertData(
-                                nameController.text, colorController.text);
+                                nameController.text,
+                                colorController.text,
+                                descriptionController.text);
                             Navigator.pop(context);
                             _formKey.currentState?.reset();
                           } catch (e) {
@@ -93,9 +109,8 @@ class addListElementClass extends StatelessWidget {
                       },
                       child: Text('Aggiungi',
                           style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold)),
+                            color: Colors.white,
+                          )),
                     ),
                   )
                 ])))
@@ -103,10 +118,7 @@ class addListElementClass extends StatelessWidget {
     ));
   }
 
-  void insertData(
-    String name,
-    String color,
-  ) {
+  void insertData(String name, String color, String description) {
     db
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid.toString())
@@ -114,6 +126,7 @@ class addListElementClass extends StatelessWidget {
         .doc(nameController.text)
         .set({
       'name': name,
+      'description': description,
       'color': color,
     });
   }

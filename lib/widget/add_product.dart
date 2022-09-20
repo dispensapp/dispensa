@@ -1,5 +1,6 @@
 // aggiungi prodotto
 // ignore_for_file: prefer_const_constructors, unnecessary_new, camel_case_types
+
 import 'package:dispensa/index.dart';
 import 'package:flutter/material.dart';
 import 'dart:core';
@@ -21,6 +22,7 @@ var nameController = new TextEditingController();
 var numberController = new TextEditingController();
 var dateController = new TextEditingController();
 var imageController = new TextEditingController();
+var categoryController = new TextEditingController();
 
 class addProductClass extends StatefulWidget {
   @override
@@ -37,136 +39,160 @@ class _addProductClassState extends State<addProductClass> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-            padding: EdgeInsets.all(20),
-            child: Form(
-                key: _formKey,
-                child: Column(children: [
-                  // intert image field
+        body: Container(
+      margin: EdgeInsets.all(30),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+              margin: EdgeInsets.only(top: 15),
+              child: Text("Aggiungi prodotto",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 30,
+                  ))),
+          ElevatedButton.icon(
+            style: ElevatedButton.styleFrom(
+              foregroundColor: Colors.black,
+              backgroundColor: PALETTE_LIGHT_YELLOW,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+            ),
+            icon: Icon(Icons.camera_alt_outlined),
+            label: Text('Scannerizza'),
+            onPressed: scanBarCode,
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Form(
+              key: _formKey,
+              child: Column(children: [
+                // intert image field
 
-                  ElevatedButton.icon(
+                TextFormField(
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Inserisci il nome del prodotto';
+                    }
+                    return null;
+                  },
+                  controller: nameController,
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(
+                    suffixIcon: Icon(Icons.food_bank_rounded),
+                    labelText: 'Nome del prodotto',
+                    hintText: nameController.text,
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+
+                TextFormField(
+                  controller: categoryController,
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(
+                    suffixIcon: Icon(Icons.category),
+                    labelText: 'Categoria',
+                    hintText: categoryController.text,
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                TextFormField(
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(
+                    suffixIcon: Icon(Icons.format_list_numbered_outlined),
+                    labelText: 'Quantità del prodotto',
+                    border: OutlineInputBorder(),
+                  ),
+                  //check if there is content in the field and if the content is a number
+                  validator: (value) => value!.isEmpty
+                      ? 'Inserisci un numero'
+                      : int.tryParse(value) == null
+                          ? 'Inserisci un numero'
+                          : null,
+                  controller: numberController,
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                TextFormField(
+                  showCursor: true,
+                  //hide keyboard
+                  readOnly: true,
+                  decoration: InputDecoration(
+                    suffixIcon: Icon(Icons.date_range_rounded),
+                    labelText: 'Data di scadenza',
+                    hintText: dateController.text,
+                    border: OutlineInputBorder(),
+                  ),
+                  controller: dateController,
+                  onTap: () async {
+                    DateTime? newDate = await showDatePicker(
+                        context: context,
+                        initialDate: date,
+                        firstDate: DateTime(1900),
+                        lastDate: DateTime(2100));
+                    if (newDate == null) return;
+
+                    //trasform date into yyyymmdd
+                    setState(() {
+                      date = newDate;
+                      String formattedDate =
+                          DateFormat('yyyy-MM-dd').format(newDate);
+
+                      dateController.text = formattedDate;
+                    });
+                  },
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.black,
-                      backgroundColor: PALETTE_LIGHT_YELLOW,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
+                      backgroundColor: PALETTE_BLUE,
+                      minimumSize: Size.fromHeight(50), // NEW
                     ),
-                    icon: Icon(Icons.camera_alt_outlined),
-                    label: Text('Scannerizza'),
-                    onPressed: scanBarCode,
-                  ),
+                    //on pressed async
 
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                    child: TextFormField(
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter some text';
+                    onPressed: () async {
+                      // Validate returns true if the form is valid, or false otherwise.
+                      if (_formKey.currentState!.validate()) {
+                        // If the form is valid, display a snackbar. In the real world,
+                        // you'd often call a server or save the information in a database.
+                        try {
+                          insertData(
+                              nameController.text,
+                              int.parse(numberController.text),
+                              dateController.text,
+                              categoryController.text);
+                          Navigator.pop(context);
+                          _formKey.currentState?.reset();
+                        } catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text("Errore nel salvataggio dei dati:$e"),
+                          ));
                         }
-                        return null;
-                      },
-                      controller: nameController,
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                        suffixIcon: Icon(Icons.food_bank_rounded),
-                        labelText: 'Nome del prodotto',
-                        hintText: nameController.text,
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
+                      }
+                    },
+                    child: Text('Aggiungi',
+                        style: TextStyle(
+                          color: Colors.white,
+                        )),
                   ),
-                  Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 16),
-                      child: TextFormField(
-                        keyboardType: TextInputType.text,
-                        decoration: InputDecoration(
-                          suffixIcon: Icon(Icons.format_list_numbered_outlined),
-                          labelText: 'Quantità del prodotto',
-                          border: OutlineInputBorder(),
-                        ),
-                        //check if there is content in the field and if the content is a number
-                        validator: (value) => value!.isEmpty
-                            ? 'Inserisci un numero'
-                            : int.tryParse(value) == null
-                                ? 'Inserisci un numero'
-                                : null,
-                        controller: numberController,
-                      )),
-                  Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 16),
-                      child: TextFormField(
-                        showCursor: true,
-                        //hide keyboard
-                        readOnly: true,
-                        decoration: InputDecoration(
-                          suffixIcon: Icon(Icons.date_range_rounded),
-                          labelText: 'Data di scadenza',
-                          hintText: dateController.text,
-                          border: OutlineInputBorder(),
-                        ),
-                        controller: dateController,
-                        onTap: () async {
-                          DateTime? newDate = await showDatePicker(
-                              context: context,
-                              initialDate: date,
-                              firstDate: DateTime(1900),
-                              lastDate: DateTime(2100));
-                          if (newDate == null) return;
-
-                          //trasform date into yyyymmdd
-                          setState(() {
-                            date = newDate;
-                            String formattedDate =
-                                DateFormat('yyyy-MM-dd').format(newDate);
-
-                            dateController.text = formattedDate;
-                          });
-                        },
-                      )),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: PALETTE_BLUE,
-                        minimumSize: Size.fromHeight(50), // NEW
-                      ),
-                      //on pressed async
-
-                      onPressed: () async {
-                        // Validate returns true if the form is valid, or false otherwise.
-                        if (_formKey.currentState!.validate()) {
-                          // If the form is valid, display a snackbar. In the real world,
-                          // you'd often call a server or save the information in a database.
-                          try {
-                            insertData(
-                                nameController.text,
-                                int.parse(numberController.text),
-                                dateController.text);
-                            Navigator.pop(context);
-                            _formKey.currentState?.reset();
-                          } catch (e) {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content:
-                                  Text("Errore nel salvataggio dei dati:$e"),
-                            ));
-                          }
-                        }
-                      },
-                      child: Text('Aggiungi'
-                          //text color white
-
-                          ),
-                    ),
-                  )
-                ])))
-      ],
+                )
+              ]))
+        ],
+      ),
     ));
   }
 
@@ -187,20 +213,21 @@ class _addProductClassState extends State<addProductClass> {
         print(result.product);
         nameController.text = result.product?.productName! as String;
         imageController.text = result.product?.imageFrontUrl as String;
+        categoryController.text = result.product?.categories as String;
       } else {
-        throw Exception(
-            'product not found, please insert data for $scanResult');
+        throw Exception('Prodotto non trovato, inserisci i dati manualmente');
       }
       return null;
     } on PlatformException {
-      scanResult = 'Non è stato possibile trovare il prodotto.';
+      scanResult = 'Prodotto non trovato, inserisci i dati manualmente';
     }
 
     //if (!mounted) return;
   }
 }
 
-void insertData(String name, int number, String expirationDate) {
+void insertData(
+    String name, int number, String expirationDate, String category) {
   db
       .collection('users')
       .doc(FirebaseAuth.instance.currentUser!.uid.toString())
@@ -210,6 +237,7 @@ void insertData(String name, int number, String expirationDate) {
     'name': name,
     'number': number,
     'expirationDate': expirationDate,
-    'image': imageController.text
+    'image': imageController.text,
+    'category': category,
   });
 }

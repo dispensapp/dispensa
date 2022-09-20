@@ -47,6 +47,7 @@ Future<void> userSetup(String displayName) async {
     'email': FirebaseAuth.instance.currentUser!.email,
     'uid': FirebaseAuth.instance.currentUser!.uid.toString(),
   });
+  //crea raccolta "dispensa" e "liste" all'interno della sezione dell'utente
 
   return;
 }

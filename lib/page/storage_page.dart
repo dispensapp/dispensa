@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dispensa/utils/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../index.dart';
 import '../widget/add_product.dart';
 import '../widget/product_widget.dart';
 
@@ -28,14 +27,16 @@ class _StoragePage extends State<StoragePage> {
             }));
   }
 
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
         //add dispensa title
 
         //add button
         floatingActionButton: FloatingActionButton(
+          //add color
+          backgroundColor: PALETTE_BLUE,
           onPressed: () {
+            //show addproductclass
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => addProductClass()),
@@ -43,7 +44,7 @@ class _StoragePage extends State<StoragePage> {
           },
           child: const Icon(
             Icons.add,
-            color: Colors.black,
+            color: Colors.white,
           ),
         ),
         body: Container(

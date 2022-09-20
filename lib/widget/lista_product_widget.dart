@@ -43,7 +43,7 @@ class listaCard extends StatelessWidget {
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: PALETTE_WHITE,
+                      color: LIGHT_GRAY,
                       boxShadow: [
                         BoxShadow(
                           color: Colors.grey.withOpacity(0.1),
@@ -60,7 +60,7 @@ class listaCard extends StatelessWidget {
                         //add icon
                         Icon(
                           Icons.add_box,
-                          color: PALETTE_DARK_YELLOW,
+                          color: PALETTE_BLUE,
                           size: 50,
                         ),
                         SizedBox(
@@ -113,7 +113,7 @@ class listaCard extends StatelessWidget {
               ));
         }
 
-        return Text("Caricamento");
+        return Text("");
       }),
     );
   }
