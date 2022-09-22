@@ -2,6 +2,7 @@
 
 import 'dart:core';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dispensa/page/lists_page.dart';
 import 'package:dispensa/utils/constants.dart';
 import 'package:dispensa/widget/add_list.dart';
 import 'package:flutter/material.dart';
@@ -24,10 +25,9 @@ class listaCard extends StatelessWidget {
       future: productsData.doc(documentId).get(),
       builder: ((context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          try {
-            Map<String, dynamic> data =
-                snapshot.data!.data() as Map<String, dynamic>;
-          } catch (e) {
+          Map<String, dynamic> data =
+              snapshot.data!.data() as Map<String, dynamic>;
+          if (data.isEmpty) {
             return GestureDetector(
                 onTap: () {
                   //open create list class
@@ -83,34 +83,78 @@ class listaCard extends StatelessWidget {
                     )));
           }
           //create a card in material ui 3
-          return Container(
-              //insert min width
-              width: 150,
-              //rounded corners
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: PALETTE_WHITE,
-                //min width
-                //min height
-                //set margin
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.1),
-                    spreadRadius: 1,
-                    blurRadius: 2,
-                    offset: Offset(0, 3), // changes position of shadow
-                  ),
-                ],
-              ),
+          return GestureDetector(
+              onTap: () => {
+                    //open list
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return ListsPage();
+                    }))
+                  },
+              child: Container(
+                  //set margin on bottom
+                  margin: const EdgeInsets.only(bottom: 20),
+                  alignment: Alignment.centerLeft,
+                  //set padding
+                  child: Column(
+                    children: [
+                      //set padding
+                      Container(
+                        padding: EdgeInsets.all(20),
+                        //set content to start
+                        alignment: Alignment.centerLeft,
+                        //set background color
 
-              //add backgorund color
-              margin: EdgeInsets.only(right: 30),
-              //set content to start
-              alignment: Alignment.centerLeft,
-              //set padding
-              child: Column(
-                children: [],
-              ));
+                        //set style shadow
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20),
+                          //set shadow
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.1),
+                              spreadRadius: 1,
+                              blurRadius: 10,
+                              offset:
+                                  Offset(0, 3), // changes position of shadow
+                            ),
+                          ],
+                        ),
+                        //set rounded corners
+                        child: Row(
+                          //set content to start
+                          children: [
+                            //circle icon
+                            Icon(
+                              Icons.circle,
+                              color: PALETTE_BLUE,
+                              size: 40,
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  data["name"],
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  data["description"],
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 15),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  )));
         }
 
         return Text("");

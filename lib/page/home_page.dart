@@ -37,7 +37,7 @@ class _HomePage extends State<HomePage> {
     await FirebaseFirestore.instance
         .collection("users")
         .doc(FirebaseAuth.instance.currentUser!.uid.toString())
-        .collection("dispensa")
+        .collection("liste")
         .get()
         .then((snapshot) => snapshot.docs.forEach((document) {
               dataListeIDs.add(document.reference.id);
@@ -164,6 +164,7 @@ class _HomePage extends State<HomePage> {
                                     color: Colors.black,
                                   ),
                                   onPressed: () {
+                                    //change navigationdestination to storage page
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(

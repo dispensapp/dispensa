@@ -84,16 +84,16 @@ class productCard extends StatelessWidget {
               width: 150,
               //rounded corners
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(20),
                 color: PALETTE_WHITE,
                 //min width
                 //min height
                 //set margin
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.withOpacity(0.1),
-                    spreadRadius: 1,
-                    blurRadius: 2,
+                    color: Colors.grey.withOpacity(0.2),
+                    spreadRadius: 3,
+                    blurRadius: 10,
                     offset: Offset(0, 3), // changes position of shadow
                   ),
                 ],
@@ -109,7 +109,10 @@ class productCard extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Image.network(
-                      data['image'],
+                      //if image is not present use default image
+                      data['image'] == ""
+                          ? "https://www.yegam.it/wp-content/uploads/2019/05/yegam-blog-slow-food.jpg"
+                          : data['image'],
                       width: 150,
                       height: 60,
                       fit: BoxFit.cover,
@@ -134,16 +137,19 @@ class productCard extends StatelessWidget {
                         Row(
                           children: [
                             Container(
-                                decoration: BoxDecoration(
-                                    color: PALETTE_LIGHT_YELLOW,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(5))),
-                                padding: EdgeInsets.all(5),
-                                child: Text(
-                                    "${expirDateConv.difference(DateTime.now()).inDays} giorni",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                    ))),
+                              decoration: BoxDecoration(
+                                  color: PALETTE_LIGHT_YELLOW,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(5))),
+                              padding: EdgeInsets.all(5),
+                              child: Text((() {
+                                if (expirDateConv.isBefore(DateTime.now())) {
+                                  return "Scaduto";
+                                } else {
+                                  return "${expirDateConv.day}/${expirDateConv.month}/${expirDateConv.year}";
+                                }
+                              })()),
+                            ),
                             SizedBox(
                               width: 10,
                             ),

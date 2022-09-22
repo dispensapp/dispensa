@@ -30,13 +30,6 @@ class ListsPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  Text(
-                    'Liste',
-                    style: DefaultTextStyle.of(context)
-                        .style
-                        .apply(fontSizeFactor: 2.0),
-                  ),
-
                   //create floating action button in bottom of screen
                 ])));
   }

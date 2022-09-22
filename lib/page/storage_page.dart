@@ -59,14 +59,29 @@ class _StoragePage extends State<StoragePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      Text(
-                        'Dispensa',
-                        style: DefaultTextStyle.of(context)
-                            .style
-                            .apply(fontSizeFactor: 2.0),
+                      //search bar like material you
+                      Expanded(
+                        child: TextField(
+                          decoration: InputDecoration(
+                            hintText: "Cerca prodotto",
+                            hintStyle: TextStyle(color: Colors.grey),
+                            prefixIcon: Icon(
+                              Icons.search,
+                              color: Colors.grey,
+                            ),
+                            filled: true,
+                            fillColor: Colors.white,
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(color: Colors.grey),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(color: Colors.grey),
+                            ),
+                          ),
+                        ),
                       ),
-
-                      //create floating action button in bottom of screen
                     ]),
               ),
               ConstrainedBox(

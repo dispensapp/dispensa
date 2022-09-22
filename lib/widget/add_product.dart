@@ -165,10 +165,7 @@ class _addProductClassState extends State<addProductClass> {
                     //on pressed async
 
                     onPressed: () async {
-                      // Validate returns true if the form is valid, or false otherwise.
                       if (_formKey.currentState!.validate()) {
-                        // If the form is valid, display a snackbar. In the real world,
-                        // you'd often call a server or save the information in a database.
                         try {
                           insertData(
                               nameController.text,
@@ -177,6 +174,8 @@ class _addProductClassState extends State<addProductClass> {
                               categoryController.text);
                           Navigator.pop(context);
                           _formKey.currentState?.reset();
+                          //update app
+
                         } catch (e) {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text("Errore nel salvataggio dei dati:$e"),

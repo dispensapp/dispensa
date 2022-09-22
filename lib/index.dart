@@ -38,11 +38,11 @@ class _MainPageState extends State<MainPage> {
                   label: 'Home',
                 ),
                 NavigationDestination(
-                  icon: Icon(Icons.storage),
+                  icon: Icon(Icons.fastfood),
                   label: 'Dispensa',
                 ),
                 NavigationDestination(
-                  icon: Icon(Icons.calendar_month_outlined),
+                  icon: Icon(Icons.list),
                   label: 'Liste',
                 ),
               ],
