@@ -3,7 +3,9 @@
 import 'dart:core';
 import 'dart:ffi';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dispensa/page/storage_page.dart';
 import 'package:dispensa/utils/constants.dart';
+import 'package:dispensa/widget/dispensa/product_details.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:food_icons/food_icons.dart';
@@ -24,8 +26,12 @@ class GetProduct extends StatelessWidget {
 
     return InkWell(
         onTap: () {
-          //set switch
-          isButtonClicked = !isButtonClicked;
+          //open product details page
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => productDetails(documentId: documentId)),
+          );
         },
         child: Container(
             //add gap on top and bottom
@@ -33,9 +39,17 @@ class GetProduct extends StatelessWidget {
             //rounded container
             decoration: BoxDecoration(
               //if button is clicked, color is yellow
-              color:
-                  isButtonClicked ? PALETTE_LIGHT_YELLOW : Colors.transparent,
+              color: Colors.white,
               borderRadius: BorderRadius.circular(20),
+              //set shadow
+              boxShadow: [
+                BoxShadow(
+                  color: Color.fromARGB(255, 229, 229, 229).withOpacity(0.1),
+                  spreadRadius: 1,
+                  blurRadius: 5,
+                  offset: Offset(0, 3), // changes position of shadow
+                ),
+              ],
             ),
             padding: EdgeInsets.all(10),
             child: FutureBuilder<DocumentSnapshot>(
@@ -95,70 +109,22 @@ class GetProduct extends StatelessWidget {
                         ),
                         //remove button
                         IconButton(
-                          icon: Icon(Icons.open_in_full),
-                          onPressed: () {},
+                          icon: Icon(Icons.delete),
+                          onPressed: () {
+                            //remove product from database and reload page
+                            productsData.doc(documentId).delete();
+
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => StoragePage()),
+                            );
+                          },
                         )
                       ],
                     ),
                     //when i click container, it creates a container that contains three buttons
                     //one for edit, one for delete and one for add
-                    !isButtonClicked
-                        ? Container(
-                            //border black only on top
-                            decoration: BoxDecoration(
-                                border: Border(
-                                    top: BorderSide(
-                                        color: Colors.black, width: 1))),
-                            margin: EdgeInsets.only(top: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                //edit button with icon and text below, margin between two elements = 0
-                                Column(
-                                  children: [
-                                    IconButton(
-                                      icon: Icon(Icons.edit),
-                                      onPressed: () {},
-                                    ),
-                                    Text("Modifica")
-                                  ],
-                                ),
-
-                                //add button with icon and text below, margin between two elements = 0
-                                Column(
-                                  children: [
-                                    IconButton(
-                                      icon: Icon(Icons.add),
-                                      onPressed: () {},
-                                    ),
-                                    Text("Aggiungi")
-                                  ],
-                                ),
-
-                                //delete button with icon and text below material you
-                                Column(
-                                  children: [
-                                    IconButton(
-                                      icon: Icon(Icons.delete),
-                                      onPressed: () {
-                                        try {
-                                          productsData.doc(documentId).delete();
-                                        } catch (e) {
-                                          //print error on app
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(SnackBar(
-                                            content: Text(
-                                                "Errore nell'eliminazione: $e"),
-                                          ));
-                                        }
-                                      },
-                                    ),
-                                    Text("Elimina")
-                                  ],
-                                ),
-                              ],
-                            ))
-                        : Container()
                   ]);
                 }
                 return Text("Loading");

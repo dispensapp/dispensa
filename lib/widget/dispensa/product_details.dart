@@ -1,0 +1,326 @@
+//create product details page that takes from database the product details
+//and show them
+//
+// Compare this snippet from lib/widget/product_widget.dart:
+// // ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
+//
+// ignore_for_file: prefer_const_constructors
+
+import 'dart:core';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dispensa/utils/constants.dart';
+import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+//create product details page that takes from database the product details
+//and show them
+class productDetails extends StatelessWidget {
+  final String documentId;
+  final user = FirebaseAuth.instance.currentUser;
+
+  productDetails({required this.documentId});
+
+  @override
+  Widget build(BuildContext context) {
+    CollectionReference productsData = FirebaseFirestore.instance
+        .collection("users")
+        .doc(user?.uid)
+        .collection("dispensa");
+    return Scaffold(
+      //section of product details, with big image on top and product details
+      //below
+      body: FutureBuilder<DocumentSnapshot>(
+        future: productsData.doc(documentId).get(),
+        builder: ((context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            Map<String, dynamic> data =
+                snapshot.data!.data() as Map<String, dynamic>;
+            int tempNumber = data["number"];
+            return Scaffold(
+                //insert in bottom of screen the quantity of product, a button for encrease or decrease quantity. add also a save button
+                bottomNavigationBar: Container(
+                    margin: EdgeInsets.all(15),
+                    height: 80,
+                    child: Row(
+                      //space between
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        //buttons to decrease or encrease quantity of product
+                        Container(
+                          //insert border black
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            //rounded corners
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              color: Colors.black,
+                            ),
+                            //shadow
+                            boxShadow: [
+                              BoxShadow(
+                                color: Color.fromARGB(255, 229, 229, 229)
+                                    .withOpacity(0.1),
+                                spreadRadius: 1,
+                                blurRadius: 5,
+                                offset:
+                                    Offset(0, 3), // changes position of shadow
+                              ),
+                            ],
+                          ),
+
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                padding: EdgeInsets.all(2),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Color.fromARGB(255, 229, 229, 229)
+                                          .withOpacity(0.1),
+                                      spreadRadius: 1,
+                                      blurRadius: 5,
+                                      offset: Offset(0, 3),
+                                    ),
+                                  ],
+                                ),
+                                child: IconButton(
+                                  onPressed: () {
+                                    tempNumber++;
+                                  },
+                                  //set add icon
+                                  icon: Icon(
+                                    Icons.remove,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 13,
+                              ),
+                              Text(
+                                tempNumber.toString(),
+                                //center text
+                                textAlign: TextAlign.center,
+                              ),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Color.fromARGB(255, 229, 229, 229)
+                                          .withOpacity(0.1),
+                                      spreadRadius: 1,
+                                      blurRadius: 5,
+                                      offset: Offset(0, 3),
+                                    ),
+                                  ],
+                                ),
+                                child: IconButton(
+                                  onPressed: () {
+                                    tempNumber++;
+                                  },
+                                  //set add icon
+                                  icon: Icon(
+                                    Icons.add,
+                                    color: Colors.black,
+                                  ),
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        ElevatedButton.icon(
+                          //palette blue color
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            //shadow
+                            shadowColor: Color.fromARGB(255, 229, 229, 229)
+                                .withOpacity(0.1),
+                            elevation: 5,
+                          ),
+                          onPressed: () {
+                            //save new quantity of product
+                            productsData.doc(documentId).update({
+                              "number": tempNumber,
+                            });
+                            Navigator.pop(context);
+                          },
+
+                          label: Text(
+                            "Salva",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 20,
+                              //font normal
+                              fontWeight: FontWeight.w300,
+                            ),
+                          ),
+                          icon: Icon(
+                            Icons.save_as_outlined,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    )),
+                body: Column(
+                  //elements at start
+                  crossAxisAlignment: CrossAxisAlignment.start,
+
+                  children: [
+                    //image of product
+                    Container(
+                      height: 300,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          //if image is = "" (empty), show default image
+                          image: NetworkImage(
+                            data['image'] == ""
+                                ? "https://www.yegam.it/wp-content/uploads/2019/05/yegam-blog-slow-food.jpg"
+                                : data['image'],
+                            //bottom rounded corners
+                          ),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    //product details
+                    Container(
+                      margin: EdgeInsets.all(40),
+                      child: Column(
+                        //elements at start
+                        crossAxisAlignment: CrossAxisAlignment.start,
+
+                        children: [
+                          //product name
+                          Row(
+                            //insert between
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                data['name'],
+                                style: TextStyle(
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold,
+                                  //letter spacing
+                                ),
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(
+                                    left: 10, right: 10, top: 5, bottom: 5),
+                                decoration: BoxDecoration(
+                                  color: PALETTE_LIGHT_YELLOW,
+                                  borderRadius: BorderRadius.circular(5),
+                                  //set shadow
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Color.fromARGB(255, 229, 229, 229)
+                                          .withOpacity(0.1),
+                                      spreadRadius: 1,
+                                      blurRadius: 10,
+                                      offset: Offset(0, 3),
+                                    ),
+                                  ],
+                                ),
+                                child: Text(
+                                  //trasforma la data in numero di giorni che mancano alla scadenza
+                                  data['expirationDate'],
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.black,
+                                    //bold
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+
+                          Text(
+                            data['category'],
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w300,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              ElevatedButton(
+                                  //set rounded borders
+                                  style: ElevatedButton.styleFrom(
+                                    //color on clicked
+                                    primary: PALETTE_BLUE,
+
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    //set shadow
+                                    shadowColor:
+                                        Color.fromARGB(255, 229, 229, 229)
+                                            .withOpacity(0.1),
+                                    elevation: 5,
+                                  ),
+                                  child: Text("Descrizione"),
+                                  onPressed: () => {}),
+                              ElevatedButton(
+                                  //set rounded borders
+                                  style: ElevatedButton.styleFrom(
+                                    //color on clicked
+
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    //set shadow
+                                    shadowColor:
+                                        Color.fromARGB(255, 229, 229, 229)
+                                            .withOpacity(0.1),
+                                    elevation: 5,
+                                  ),
+                                  child: Text("Ingredienti"),
+                                  onPressed: () => {}),
+                              ElevatedButton(
+                                  //set rounded borders
+                                  style: ElevatedButton.styleFrom(
+                                    //color on clicked
+
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    //set shadow
+                                    shadowColor:
+                                        Color.fromARGB(255, 229, 229, 229)
+                                            .withOpacity(0.1),
+                                    elevation: 5,
+                                  ),
+                                  child: Text("Ingredienti"),
+                                  onPressed: () => {}),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ));
+          }
+          return Text("loading");
+        }),
+      ),
+    );
+  }
+}

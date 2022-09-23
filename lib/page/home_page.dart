@@ -1,14 +1,15 @@
 // ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, sort_child_properties_last, camel_case_types, must_be_immutable, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dispensa/page/lists_page.dart';
 import 'package:dispensa/page/storage_page.dart';
-import 'package:dispensa/widget/dispensa_product_widget.dart';
+import 'package:dispensa/widget/home/dispensa_product_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../provider/google_sign_in.dart';
 import '../utils/constants.dart';
 import '../widget/add_product.dart';
-import '../widget/lista_product_widget.dart';
+import '../widget/home/lista_product_widget.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -199,16 +200,33 @@ class _HomePage extends State<HomePage> {
                               }),
                         ),
                         SizedBox(height: 10),
-                        Text("LISTE",
-                            //onclick to go to list page
-
-                            style: DefaultTextStyle.of(context)
-                                .style
-                                .apply(fontSizeFactor: 1)),
-                        SizedBox(height: 10),
+                        Row(
+                            //insert between
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("LISTE",
+                                  style: DefaultTextStyle.of(context)
+                                      .style
+                                      .apply(fontSizeFactor: 1)),
+                              //button with icon to view dispensa page
+                              IconButton(
+                                  icon: const Icon(
+                                    Icons.arrow_forward_ios,
+                                    //set color
+                                    color: Colors.black,
+                                  ),
+                                  onPressed: () {
+                                    //change navigationdestination to storage page
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ListsPage()),
+                                    );
+                                  }),
+                            ]),
                         ConstrainedBox(
                           constraints: BoxConstraints(
-                            maxHeight: 151,
+                            maxHeight: 130,
                           ),
                           child: FutureBuilder(
                               future: getListeId(),

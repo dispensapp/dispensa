@@ -227,6 +227,10 @@ class _addProductClassState extends State<addProductClass> {
 
 void insertData(
     String name, int number, String expirationDate, String category) {
+  if (imageController.text == "") {
+    imageController.text =
+        "https://www.yegam.it/wp-content/uploads/2019/05/yegam-blog-slow-food.jpg";
+  }
   db
       .collection('users')
       .doc(FirebaseAuth.instance.currentUser!.uid.toString())
