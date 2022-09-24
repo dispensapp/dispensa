@@ -14,7 +14,7 @@ class SignUpWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-            color: Colors.white,
+            color: PALETTE_WHITE,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -26,12 +26,12 @@ class SignUpWidget extends StatelessWidget {
                       height: 200,
                     ),
                     Text(
-                      'Login Now',
+                      'Accedi o Registrati',
                       style:
                           TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      'Please Sign up with the button below',
+                      'utilizzando il tasto qui sotto!',
                       style: TextStyle(fontSize: 20),
                     ),
                   ]),
@@ -40,14 +40,14 @@ class SignUpWidget extends StatelessWidget {
                   margin: EdgeInsets.all(50),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                        primary: PALETTE_LIGHT_YELLOW,
-                        onPrimary: Colors.black,
+                        primary: PALETTE_BLUE,
+                        onPrimary: Colors.white,
                         minimumSize: Size(double.infinity, 50)),
                     child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: const [
                           SizedBox(width: 10),
-                          Icon(FontAwesomeIcons.google, color: Colors.black),
+                          Icon(FontAwesomeIcons.google, color: Colors.white),
                           Padding(
                             padding: EdgeInsets.only(
                                 left: 10), //apply padding to some sides only

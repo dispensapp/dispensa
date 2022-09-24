@@ -5,7 +5,7 @@ import 'dart:ffi';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dispensa/page/storage_page.dart';
 import 'package:dispensa/utils/constants.dart';
-import 'package:dispensa/widget/dispensa/product_details.dart';
+import 'package:dispensa/widget/storage/product_details.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:food_icons/food_icons.dart';
@@ -67,11 +67,13 @@ class GetProduct extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            Icon(
-                              FoodIcons.oven,
-                              color: PALETTE_BLUE,
-                              size: 40,
-                            ),
+                            Image.network(
+                                data['image'] == ""
+                                    ? "https://www.yegam.it/wp-content/uploads/2019/05/yegam-blog-slow-food.jpg"
+                                    : data['image'],
+                                width: 40,
+                                height: 40,
+                                fit: BoxFit.cover),
                             Container(
                               margin: EdgeInsets.only(left: 10),
                               child: Column(

@@ -17,7 +17,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 class productDetails extends StatelessWidget {
   final String documentId;
   final user = FirebaseAuth.instance.currentUser;
-
+  //create array with button names
+  List<String> buttonNames = [
+    "Descrizione",
+    "Ingredienti",
+    "Offerte",
+    "Recensioni"
+  ];
+  int buttonClicked = 0;
   productDetails({required this.documentId});
 
   @override
@@ -40,7 +47,7 @@ class productDetails extends StatelessWidget {
                 //insert in bottom of screen the quantity of product, a button for encrease or decrease quantity. add also a save button
                 bottomNavigationBar: Container(
                     margin: EdgeInsets.all(15),
-                    height: 80,
+                    height: 75,
                     child: Row(
                       //space between
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -138,9 +145,11 @@ class productDetails extends StatelessWidget {
                           ),
                         ),
 
-                        ElevatedButton.icon(
+                        ElevatedButton(
                           //palette blue color
                           style: ElevatedButton.styleFrom(
+                            //color background yellow
+                            primary: PALETTE_BLUE,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5),
                             ),
@@ -157,18 +166,14 @@ class productDetails extends StatelessWidget {
                             Navigator.pop(context);
                           },
 
-                          label: Text(
+                          child: Text(
                             "Salva",
                             style: TextStyle(
-                              color: Colors.black,
+                              color: Colors.white,
                               fontSize: 20,
                               //font normal
-                              fontWeight: FontWeight.w300,
+                              fontWeight: FontWeight.w400,
                             ),
-                          ),
-                          icon: Icon(
-                            Icons.save_as_outlined,
-                            color: Colors.black,
                           ),
                         ),
                       ],
@@ -199,121 +204,114 @@ class productDetails extends StatelessWidget {
                     Container(
                       margin: EdgeInsets.all(40),
                       child: Column(
-                        //elements at start
-                        crossAxisAlignment: CrossAxisAlignment.start,
-
-                        children: [
-                          //product name
-                          Row(
-                            //insert between
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                data['name'],
-                                style: TextStyle(
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.bold,
-                                  //letter spacing
-                                ),
-                              ),
-                              Container(
-                                padding: EdgeInsets.only(
-                                    left: 10, right: 10, top: 5, bottom: 5),
-                                decoration: BoxDecoration(
-                                  color: PALETTE_LIGHT_YELLOW,
-                                  borderRadius: BorderRadius.circular(5),
-                                  //set shadow
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Color.fromARGB(255, 229, 229, 229)
-                                          .withOpacity(0.1),
-                                      spreadRadius: 1,
-                                      blurRadius: 10,
-                                      offset: Offset(0, 3),
-                                    ),
-                                  ],
-                                ),
-                                child: Text(
-                                  //trasforma la data in numero di giorni che mancano alla scadenza
-                                  data['expirationDate'],
+                          //elements at start
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            //product name
+                            Row(
+                              //insert between
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  data['name'],
                                   style: TextStyle(
-                                    fontSize: 15,
-                                    color: Colors.black,
-                                    //bold
-                                    fontWeight: FontWeight.w500,
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.bold,
+                                    //letter spacing
                                   ),
                                 ),
-                              )
-                            ],
-                          ),
-
-                          Text(
-                            data['category'],
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w300,
+                                Container(
+                                  padding: EdgeInsets.only(
+                                      left: 10, right: 10, top: 5, bottom: 5),
+                                  decoration: BoxDecoration(
+                                    color: PALETTE_LIGHT_YELLOW,
+                                    borderRadius: BorderRadius.circular(5),
+                                    //set shadow
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color:
+                                            Color.fromARGB(255, 229, 229, 229)
+                                                .withOpacity(0.1),
+                                        spreadRadius: 1,
+                                        blurRadius: 10,
+                                        offset: Offset(0, 3),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Text(
+                                    //trasforma la data in numero di giorni che mancano alla scadenza
+                                    data['expirationDate'],
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.black,
+                                      //bold
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                )
+                              ],
                             ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
 
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              ElevatedButton(
-                                  //set rounded borders
-                                  style: ElevatedButton.styleFrom(
-                                    //color on clicked
-                                    primary: PALETTE_BLUE,
+                            Text(
+                              data['category'],
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w300,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
 
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                    //set shadow
-                                    shadowColor:
-                                        Color.fromARGB(255, 229, 229, 229)
-                                            .withOpacity(0.1),
-                                    elevation: 5,
-                                  ),
-                                  child: Text("Descrizione"),
-                                  onPressed: () => {}),
-                              ElevatedButton(
-                                  //set rounded borders
-                                  style: ElevatedButton.styleFrom(
-                                    //color on clicked
+                            Container(
+                              height: 50,
+                              child: ListView.builder(
+                                //scroll horizontal
+                                scrollDirection: Axis.horizontal,
+                                itemCount: 4,
+                                itemBuilder: (context, index) {
+                                  return Container(
+                                      margin: EdgeInsets.only(right: 10),
+                                      child: ElevatedButton(
 
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                    //set shadow
-                                    shadowColor:
-                                        Color.fromARGB(255, 229, 229, 229)
-                                            .withOpacity(0.1),
-                                    elevation: 5,
-                                  ),
-                                  child: Text("Ingredienti"),
-                                  onPressed: () => {}),
-                              ElevatedButton(
-                                  //set rounded borders
-                                  style: ElevatedButton.styleFrom(
-                                    //color on clicked
-
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                    //set shadow
-                                    shadowColor:
-                                        Color.fromARGB(255, 229, 229, 229)
-                                            .withOpacity(0.1),
-                                    elevation: 5,
-                                  ),
-                                  child: Text("Ingredienti"),
-                                  onPressed: () => {}),
-                            ],
-                          )
-                        ],
-                      ),
+                                          //set rounded borders
+                                          style: ElevatedButton.styleFrom(
+                                            //on focus change color
+                                            primary: buttonClicked == index
+                                                ? PALETTE_BLUE
+                                                : Colors.white,
+                                            //text color
+                                            onPrimary: buttonClicked == index
+                                                ? Colors.white
+                                                : Colors.black,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                            ),
+                                            //set shadow
+                                            shadowColor: Color.fromARGB(
+                                                    255, 229, 229, 229)
+                                                .withOpacity(0.1),
+                                            elevation: 5,
+                                          ),
+                                          child: Text(buttonNames[index]),
+                                          onPressed: () =>
+                                              {buttonClicked = index}));
+                                },
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            //insert a description
+                            Text(
+                              data['description'],
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w300,
+                              ),
+                            ),
+                          ]),
                     ),
                   ],
                 ));
