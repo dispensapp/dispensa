@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:intl/intl.dart';
 import 'package:openfoodfacts/openfoodfacts.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 final db = FirebaseFirestore.instance;
 
@@ -19,6 +20,8 @@ var imageController = new TextEditingController();
 var categoryController = new TextEditingController();
 
 class addProductClass extends StatefulWidget {
+  get propertyRef => null;
+
   @override
   _addProductClassState createState() => _addProductClassState();
 }
@@ -217,6 +220,8 @@ class _addProductClassState extends State<addProductClass> {
 
     //if (!mounted) return;
   }
+
+  valueOrDefault(mainImage, String s) {}
 }
 
 void insertData(

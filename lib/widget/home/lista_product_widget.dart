@@ -4,7 +4,7 @@ import 'dart:core';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dispensa/page/lists_page.dart';
 import 'package:dispensa/utils/constants.dart';
-import 'package:dispensa/widget/add_list.dart';
+import 'package:dispensa/widget/lists/add_list.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 

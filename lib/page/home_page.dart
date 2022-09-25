@@ -8,8 +8,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../provider/google_sign_in.dart';
 import '../utils/constants.dart';
-import '../widget/add_product.dart';
+import '../widget/storage/add_product.dart';
 import '../widget/home/lista_product_widget.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -17,6 +18,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePage extends State<HomePage> {
+  //scraping sales from e-coop.it
+
+  final List<String> images = [
+    //"https://www.e-coop.it/sites/default/files/2022-06/TRIPLA_CONVENIENZA_DesktopHP-1103x488-01.png",
+    "https://www.conad.it/assets/images/negozi-specializzati/lancio-ottico.jpg?_u=1652361873889",
+    "https://www.conad.it/assets/images/negozi-specializzati/lancio-petstore.jpg?_u=1652361871357",
+    "https://www.conad.it/assets/images/negozi-specializzati/lancio-self.jpg?_u=1652361873822"
+  ];
+
   final FirebaseAuth firebase_auth = FirebaseAuth.instance;
   final user = FirebaseAuth.instance.currentUser;
   List<String> dataStorageIDs = [];
@@ -117,31 +127,37 @@ class _HomePage extends State<HomePage> {
               ),
               //create header with start "welcome back" at start of screen and image of the user at the end
 
-              Container(
-                  margin: EdgeInsets.only(top: 20),
-                  decoration: BoxDecoration(
-                      color: PALETTE_WHITE,
-                      borderRadius: BorderRadius.all(Radius.circular(20))),
-                  child: Container(
-                      margin: EdgeInsets.all(20),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Text("Dispensa",
-                                style: DefaultTextStyle.of(context)
-                                    .style
-                                    .apply(fontSizeFactor: 1.5)),
-                            SizedBox(height: 10),
-                            Text(
-                                "Il 56% dei prodotti in dispensa stanno per scadere"),
-                            SizedBox(height: 15),
-                            LinearProgressIndicator(
-                                value: 0.7,
-                                backgroundColor:
-                                    Color.fromARGB(255, 255, 233, 188),
-                                color: PALETTE_DARK_YELLOW)
-                          ]))),
+              Column(children: [
+                SizedBox(
+                  height: 20,
+                ),
+                CarouselSlider(
+                  items: images
+                      .map((item) => Container(
+                            child: Center(
+                                child: Image.network(
+                              item,
+                              fit: BoxFit.cover,
+                              width: 1000,
+                            )),
+                          ))
+                      .toList(),
+                  options: CarouselOptions(
+                    height: 140,
+                    aspectRatio: 16 / 9,
+                    viewportFraction: 0.8,
+                    initialPage: 0,
+                    enableInfiniteScroll: true,
+                    reverse: false,
+                    autoPlay: true,
+                    autoPlayInterval: Duration(seconds: 3),
+                    autoPlayAnimationDuration: Duration(milliseconds: 800),
+                    autoPlayCurve: Curves.fastOutSlowIn,
+                    enlargeCenterPage: true,
+                    scrollDirection: Axis.horizontal,
+                  ),
+                )
+              ]),
               Container(
                   margin: EdgeInsets.only(top: 20),
                   child: Column(

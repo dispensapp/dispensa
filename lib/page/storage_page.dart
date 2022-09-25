@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dispensa/utils/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../widget/add_product.dart';
+import '../widget/storage/add_product.dart';
 import '../widget/storage/product_widget.dart';
 
 class StoragePage extends StatefulWidget {

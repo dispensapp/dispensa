@@ -3,7 +3,7 @@
 import 'dart:core';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dispensa/utils/constants.dart';
-import 'package:dispensa/widget/add_product.dart';
+import 'package:dispensa/widget/storage/add_product.dart';
 import 'package:dispensa/widget/storage/product_details.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
