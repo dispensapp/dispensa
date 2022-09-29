@@ -22,9 +22,9 @@ class _HomePage extends State<HomePage> {
 
   final List<String> images = [
     //"https://www.e-coop.it/sites/default/files/2022-06/TRIPLA_CONVENIENZA_DesktopHP-1103x488-01.png",
-    "https://www.conad.it/assets/images/negozi-specializzati/lancio-ottico.jpg?_u=1652361873889",
-    "https://www.conad.it/assets/images/negozi-specializzati/lancio-petstore.jpg?_u=1652361871357",
-    "https://www.conad.it/assets/images/negozi-specializzati/lancio-self.jpg?_u=1652361873822"
+    "https://www.sconticondivisi.it/wp-content/uploads/2022/08/fai-la-spesa-col-cuore-unes-spendi-10e-ricevi-10e-dove-e-come-partecipare.jpg",
+    "https://www.sbirciaprezzo.com/wp-content/uploads/2017/09/Esselunga-Speciale-multimediale-ed-elettrodomestici-dal-7-al-20-Settembre-2017.jpg",
+    "https://coopmarostica.it/wp-content/uploads/2022/09/Coop-piano-editoriale-09-08.jpg"
   ];
 
   final FirebaseAuth firebase_auth = FirebaseAuth.instance;

@@ -6,7 +6,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dispensa/page/lists_page.dart';
 import 'package:dispensa/page/storage_page.dart';
 import 'package:dispensa/utils/constants.dart';
-import 'package:dispensa/widget/lists/lists_details.dart';
 import 'package:dispensa/widget/storage/product_details.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
